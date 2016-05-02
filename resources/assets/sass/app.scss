@@ -1,0 +1,84 @@
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+/* latin */
+
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Montserrat-Regular'), url(http://fonts.gstatic.com/s/montserrat/v6/zhcz-_WihjSQC0oHJ9TCYAzyDMXhdD8sAj6OAJTFsBI.woff2) format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000;
+}
+
+.block-banner {
+  width: 100%;
+}
+
+.sub-link {
+  font-size: .8em;
+  padding-left: 1em;
+}
+
+a:hover, a:active, a:link {
+  text-decoration: none;
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  i {
+    flex: 0 0 auto;
+    font-size: 1.2em;
+  }
+
+  a:hover {
+    cursor: pointer;
+  }
+}
+
+.user-details {
+
+  .user-name {
+    text-transform: capitalize;
+  }
+}
+
+.caption {
+  font-size: .8em;
+  div {
+    width: 100%;
+    overflow: hidden;
+  }
+}
+
+.item-details {
+  font-size: .9em;
+}
+
+.product-name {
+  text-align: center;
+}
+
+.category-list {
+  text-transform: capitalize;
+
+}
+
+.navbar:after {
+  display: none;
+}
+
+.toolbar:before {
+  display: none;
+}
+
+.navbar:after {
+  background-color: red;
+}
+
+.error {
+  font-weight: bold;
+  color: red;
+}

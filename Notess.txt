@@ -1,0 +1,28 @@
+LARAVEL NOTES
+
+Set php engine on Windows:
+set PATH=%PATH%;C:\xampp\php
+
+Update composer (to be sure that it is the latest version)
+php composer.phar self-update
+
+Use composer to get Laravel:
+php composer.phar create-project --prefer-dist laravel/laravel cart
+
+Use composer to update dependencies (after modifying composer.json to include new modules):
+php composer.phar update
+
+php composer.phar require moltin/laravel-cart
+
+Artisan commands:
+Windows: php artisan make:model Models\Order
+
+Mac: php artisan make:model Models/Order
+
+php artisan make:request CreateUserRequest
+
+php artisan make:middleware AuthorisedUserMiddleware
+
+php artisan make:controller LoginController
+
+php artisan make:controller ProductController --resource

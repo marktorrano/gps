@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="ff7c85e3-515b-4f50-bbe0-d6c39260b2ec" name="gps-aws" url="http://ec2-52-63-152-147.ap-southeast-2.compute.amazonaws.com">
+        <fileTransfer host="ec2-52-63-152-147.ap-southeast-2.compute.amazonaws.com" port="22" privateKey="$USER_HOME$/Documents/ebd-dev.pem" rootFolder="/var/www/gps" accessType="SFTP" username="ubuntu" keyPair="true">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
