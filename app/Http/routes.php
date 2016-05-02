@@ -69,9 +69,6 @@ Route::group(['middleware' => 'web'], function ()
         foreach ($items as $item)
         {
 
-//            $item = App\Models\Item::find($item->id);
-//            $path = DB::table('photos')->where('imageable_id', $item->id)->where('imageable_type', 'App\Models\Item')->value('path');
-
             foreach ($item->photos as $photo)
             {
             }
