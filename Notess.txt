@@ -26,3 +26,5 @@ php artisan make:middleware AuthorisedUserMiddleware
 php artisan make:controller LoginController
 
 php artisan make:controller ProductController --resource
+
+TODO Search, metas, User details, Cart, checkout, payment, slider on app init

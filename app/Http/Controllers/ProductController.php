@@ -12,7 +12,8 @@ use App\Models\Product;
 use App\Models\Collection;
 use DB;
 
-class ProductController extends Controller {
+class ProductController extends Controller
+{
     /**
      * Display a listing of the resource.
      *
@@ -21,10 +22,8 @@ class ProductController extends Controller {
     public function index()
     {
         //
-
         $products = Product::all();
-
-        return view('products.showproducts', ['products' => $products]);
+        return view('products.showallproducts', ['products' => $products]);
     }
 
     /**
@@ -53,8 +52,8 @@ class ProductController extends Controller {
         $collection_id = DB::table('collections')->where('category_id', $request->category_id)->where('brand_id', $request->brand_id)->value('id');
 
         $product = Product::create([
-            'name'          => $request->name,
-            'description'   => $request->description,
+            'name' => $request->name,
+            'description' => $request->description,
             'collection_id' => $collection_id
         ]);
 
@@ -63,14 +62,14 @@ class ProductController extends Controller {
         $request->file('photo')->move("images", $newName);
 
         DB::table('photos')->insert([
-            'path'           => $newName,
-            'imageable_id'   => $product->id,
+            'path' => $newName,
+            'imageable_id' => $product->id,
             'imageable_type' => 'App\Models\Product',
-            'created_at'     => Carbon::now(),
-            'updated_at'     => Carbon::now()
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now()
         ]);
 
-        return redirect('/');
+        return ('posted');
 
     }
 
@@ -133,11 +132,39 @@ class ProductController extends Controller {
      */
     public function destroy($id)
     {
+        return 'deleted';
 
         $product = Product::find($id);
 
         $product->delete();
 
-        return redirect('/');
+
+    }
+
+    public function fetchNewProducts()
+    {
+        $products = Product::orderBy('created_at', 'DESC')->get()->take(10);
+
+        foreach ($products as $product) {
+            foreach ($product->photos as $photo) {
+
+            }
+        }
+
+        return $products;
+    }
+
+    public function fetchAllProducts()
+    {
+        $products = Product::all();
+
+        foreach ($products as $product) {
+            foreach ($product->photos as $photo) {
+
+            }
+        }
+
+        return $products;
+
     }
 }

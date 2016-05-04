@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>GPS</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}" id="_token" value="{{ csrf_token() }}">
     <meta id="base_url" data-value="{{url('/')}}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="{{url('js/vendor/template7.js')}}"></script>
@@ -42,13 +42,15 @@
         </div>
 
         <div class="pages navbar-through toolbar-through">
-            <div data-page="index" class="page">
+            <div data-page="index" class="page" id="layout" data-object="{{ $categories }}">
+
                 <div class="page-content pull-to-refresh-content" data-ptr-distance="55">
                     <div class="pull-to-refresh-layer">
                         <div class="preloader"></div>
                         <div class="pull-to-refresh-arrow"></div>
                     </div>
                     <div class="list-block">
+
                         {{--<img class="block-banner" src="{{asset('images/banner.png')}}"/>--}}
                     </div>
                     <div class="list-block">
@@ -79,7 +81,7 @@
                                         </div>
                                     </div>
                                 </li>
-                                @foreach(App\Models\Category::all() as $category)
+                                @foreach($categories as $category)
                                     <li class="accordion-item">
                                         <a href="#" class=" item-link item-content">
                                             <div class="item-inner category-list">
@@ -110,6 +112,9 @@
                                 @endforeach
                             </ul>
 
+                        <pre>
+                            @{{ categories | json }}
+                        </pre>
                             <div class="accordion-item">
                                 <div class="accordion-item-toggle">
                                 </div>

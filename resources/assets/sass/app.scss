@@ -23,6 +23,11 @@ a:hover, a:active, a:link {
   text-decoration: none;
 }
 
+.sub-item-link {
+  font-size: .8em;
+  margin-left: 10px;
+}
+
 .toolbar {
   display: flex;
   justify-content: space-around;
@@ -81,4 +86,26 @@ a:hover, a:active, a:link {
 .error {
   font-weight: bold;
   color: red;
+}
+
+.alert {
+  padding: 2em 0;
+}
+
+.swiper-slide {
+  background: #fff;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+}
+
+.swiper-slide span {
+  text-align: center;
+  display: block;
+  margin: 20px;
+  font-size: 21px;
+}
+
+.swiper-container {
+  height: 120px;
+  margin: 35px 0;
 }

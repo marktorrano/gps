@@ -20,7 +20,6 @@ class Category extends Model {
 
     public function collections()
     {
-
         return $this->hasMany('App\Models\Collection');
     }
 }

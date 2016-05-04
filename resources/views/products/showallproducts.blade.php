@@ -1,17 +1,20 @@
 @include('navigation')
 
 <div class="pages navbar-through">
-    <div data-page="search-products" class="page" id="search-products" data-object="{{$products}}">
+    <div data-page="products-show" id="all-products" class="page" data-url="{{url('products')}}">
         <div class="page-content">
             <div class="content-block-title">Products</div>
             <div class="content-block">
+                {{ Form::open(['method' => 'GET']) }}
+                {{ Form::input('search', 'q', null, ['placeholder' => 'Search...', 'class' => 'form-control search', 'v-model="search"']) }}
+                {{ Form::close() }}
+                <hr/>
+
                 <div class="row no-gutter">
-
                 </div>
-                <div class="items col-50">
-                    <div class="thumbnail" v-for="product in products">
-
-                        <a href="{{url('show-items')}}@{{'/' + product.id }}">
+                <div class="items col-50" v-for="product in products | filterBy search">
+                    <div class="thumbnail">
+                        <a href="">
                             <img class="group list-group-image" v-bind:src="'images/'+product.photos[0].path"
                                  alt=""/>
                         </a>
@@ -27,12 +30,9 @@
                         </div>
                         @if(Auth::check() && Auth::user()->is_admin == '1')
                             <p class="buttons-row theme-blue">
-                                <a href="{{url('items/create')}}@{{ '/' + product.id }}" class="button">Add Item</a>
-                                <a href="{{url('products')}}@{{ '/' + product.id + '/edit'}}" class="button">Edit</a>
-                                <button class="button"
-                                        v-on:click="deleteProduct(product)"
-                                >Delete
-                                </button>
+                                <a href="{{url('items/create/')}}" class="button">Add Item</a>
+                                <a href="{{url('products/')}}" class="button">Edit</a>
+                                <a href="{{url('products/')}}" class="button delete">Delete</a>
                             </p>
                         @endif
                     </div>

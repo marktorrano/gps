@@ -5,33 +5,6 @@ $(document).ready(function () {
             'X-CSRF-TOKEN': $$('meta[name="csrf-token"]').attr('content')
         }
     });
-    myApp.onPageInit('items-show', function (page) {
-//TODO fix search
-
-        var data = [];
-        data["_token"] = $$('[name="_token"]').val();
-
-        $$.ajax({
-
-            url: $('#items').data('url'),
-            type: 'GET',
-            data: data,
-            success: function (response) {
-                var oData = JSON.parse(response);
-
-                new Vue({
-                    el: '#items',
-
-                    data: {
-                        items: oData
-                    },
-
-                });
-            }
-        });
-    });
-
-
 
 
     var ptrContent = $$('.pull-to-refresh-content');
@@ -41,21 +14,21 @@ $(document).ready(function () {
         }, 1000);
     });
 
-    $$(document).on('click', '.delete', function (e) {
-        e.preventDefault();
-        var url = $$(this).attr("href");
-        var data = [];
-        data["_token"] = $$('[name="_token"]').val();
-        var link = $$(this);
-        $$.ajax({
-            url: url,
-            type: "DELETE",
-            data: data,
-            success: function (response) {
-                console.log(response);
-            }
-        });
-    });
+    //$$(document).on('click', '.delete', function (e) {
+    //    e.preventDefault();
+    //    var url = $$(this).attr("href");
+    //    var data = [];
+    //    data["_token"] = $$('[name="_token"]').val();
+    //    var link = $$(this);
+    //    $$.ajax({
+    //        url: url,
+    //        type: "DELETE",
+    //        data: data,
+    //        success: function (response) {
+    //            console.log(response);
+    //        }
+    //    });
+    //});
 
     $$(document).on("click", ".swipe-click", function () {
         if (!$$(this).hasClass('swipeout-opened')) {
@@ -109,10 +82,7 @@ $(document).ready(function () {
     $('.addtocart').on('click', function (e) {
         e.preventDefault();
         var data = [];
-        //data['price'] = $(this).parent().prev().find('.lead').text();
-        //data['name'] = $(this).parent().parent().prev().prev().text();
         data['product_id'] = $(this).data('product_id');
-        //data['quantity'] = '1';
         data["_token"] = $('meta[name="csrf-token"]').attr('content');
         $.ajax({
             url: $(this).attr('href'),
@@ -124,10 +94,6 @@ $(document).ready(function () {
             }
         });
 
-    });
-
-    $('#cart-button').click(function () {
-        $('#cart').toggleClass('open');
     });
 
     $('.dropdown-toggle').dropdown();
@@ -143,8 +109,7 @@ $(document).ready(function () {
 
         return elementTop <= centerY && elementBottom >= centerY;
     }
-})
-;
+});
 
 
 $(function () {

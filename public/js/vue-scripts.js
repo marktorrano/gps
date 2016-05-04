@@ -1,17 +1,114 @@
+Vue.http.headers.common['X-CSRF-TOKEN'] = $('#_token').attr('value');
+var url = $('#base_url').data('value');
+
+var oCategories = $(this).data('object');
+
+var vm = new Vue({
+
+    el: '#layout',
+
+    data: {
+        categories: []
+    },
+
+
+    ready: function () {
+        this.fetchCategories();
+    },
+    methods: {
+        fetchCategories: function () {
+
+            this.$http.get(url + '/categories', function (categories) {
+                vm.$set('categories', categories);
+            });
+
+        }
+    }
+});
+
+myApp.onPageInit('items-show', function (page) {
+    new Vue({
+        el: '#items',
+        data: {
+            items: [],
+            search: ''
+        },
+        ready: function () {
+            this.fetchItems();
+        },
+        methods: {
+            fetchItems: function () {
+
+                this.$http.get(url + '/fetchAllItems', function (items) {
+                    this.$set('items', items);
+                });
+            }
+        }
+    });
+});
+myApp.onPageInit('search-products', function (page) {
+    new Vue({
+        el: '#search-products',
+        data: {
+            products: [],
+            search: ''
+        },
+        ready: function () {
+            this.products = $('#search-products').data('object');
+        },
+        methods: {
+
+            deleteProduct: function (product) {
+
+                var that = this;
+                this.$http.delete(url + '/products/' + product.id, function (response) {
+                    //delete from the list
+                    console.log(response);
+                    that.products.$remove(product);
+                });
+            }
+        }
+    });
+});
+myApp.onPageInit('products-show', function (page) {
+    new Vue({
+        el: '#all-products',
+        data: {
+            products: [],
+            search: ''
+        },
+        ready: function () {
+            this.fetchProducts();
+        },
+        methods: {
+            fetchProducts: function () {
+                this.$http.get(url + '/get-all-products', function (products) {
+                    console.log(products)
+                    this.$set('products', products);
+                });
+            },
+
+            deleteProduct: function (e) {
+                e.preventDefault();
+                console.log(e);
+                this.$http.delete(url + '/products/' + product_id, function () {
+                    //delete from the list
+                });
+            }
+        }
+    });
+});
 myApp.onPageInit('products-create', function (page) {
 
-    var url = $('#base_url').data('value');
-
+    var mySwiper3 = myApp.swiper('.swiper-3', {
+        pagination: '.swiper-3 .swiper-pagination',
+        spaceBetween: 10,
+        slidesPerView: 3
+    });
     var category_id = $('#category_id').find('option:selected').val();
-
     new Vue({
-
         el: '#products-create',
-
         data: {
-
-            submitted: false,
-
             choice: 1,
 
             brands: [
@@ -20,16 +117,14 @@ myApp.onPageInit('products-create', function (page) {
                     name: ''
                 }
             ],
-
             fields: {
                 name: '',
                 description: '',
                 photo: ''
             },
-
-            products: []
+            products: [],
+            submitted: false,
         },
-
         computed: {
             errors: function () {
 
@@ -40,16 +135,24 @@ myApp.onPageInit('products-create', function (page) {
                 return false;
             }
         },
-
         ready: function () {
 
             this.fetchBrands();
             this.fetchNewProducts();
-
-
         },
-
         methods: {
+            onFileChange: function (e) {
+
+                var files = e.target.files || e.dataTransfer.files;
+                if (!files.length) {
+
+                }
+
+                this.fields.photo = files;
+                console.log(files);
+
+            },
+
             fetchBrands: function () {
                 var category_id = $('#category_id').find('option:selected').val();
 
@@ -68,62 +171,113 @@ myApp.onPageInit('products-create', function (page) {
 
             onSubmitForm: function (e) {
 
-                //prevent default
                 e.preventDefault();
 
-                // reset input fields
-                this.fields = {
-                    name: '', description: ''
-                }
+                var fd = new FormData(document.querySelector('form'));
 
-                //send post ajax request
+                $('#photo').val('');
 
-                this.$http.post(url + 'brands', fields);
+                var fields = this.fields;
 
-                //show thanks message
+                this.$http.post(url + '/products', fd);
+
                 this.submitted = true;
 
-                // hide the submit button
+                this.fields = {
+                    name: '', description: '', photo: ''
+                }
+            },
+        }
+    });
+});
+myApp.onPageInit('categories-create', function (page) {
+
+    var vm = new Vue({
+        el: '#categories',
+
+        data: {
+
+            categories: [],
+
+            fields: {
+                name: ''
+            },
+
+            submitted: false
+        },
+
+        ready: function () {
+            this.fetchCategories();
+        },
+
+        computed: {
+            errors: function () {
+
+                for (var key in this.fields) {
+                    if (!this.fields[key]) return true;
+                }
+
+                return false;
+            }
+        },
+
+        methods: {
+
+            fetchCategories: function () {
+
+                this.$http.get(url + '/categories', function (categories) {
+                    console.log(categories);
+                    this.$set('categories', categories);
+                });
 
             },
 
+            addCategory: function (e) {
+                e.preventDefault();
+
+                var fd = new FormData(document.querySelector('form'));
+
+                $('#name').val('');
+
+                this.$http.post(url + '/categories', fd);
+
+                this.submitted = true;
+
+            }
         }
+
+
+    });
+});
+myApp.onPageInit('categories-manage', function (page) {
+
+    var oCategories = $('#categories').data('object');
+
+    var vm = new Vue({
+
+        el: '#categories',
+
+        data: {
+            categories: oCategories
+        },
+
+        methods: {
+
+            deleteCategory: function (category_id) {
+
+                this.$http.delete(url + '/categories/' + category_id, function (response) {
+                    console.log(response);
+                });
+
+            }
+        }
+
+    });
+
+    $$(document).on('delete', '.swipeout', function () {
+        $category_id = $(this).data('id');
+        vm.deleteCategory($category_id);
     });
 
 
 });
-
-//myApp.onPageInit('products-create', function (page) {
-//
-//    $$(document).on('change', '#category_id', function () {
-//        var category_id = $(this).find('option:selected').val();
-//        var url = $$(this).attr('data-url') + '/' + category_id;
-//        var data = [];
-//        data["_token"] = $$('[name="_token"]').val();
-//        $$.ajax({
-//
-//            url: url,
-//            type: "GET",
-//            data: data,
-//            success: function (response) {
-//
-//                console.log(response);
-//
-//                var oData = JSON.parse(response);
-//
-//                new Vue({
-//                    el: '#brand_id',
-//
-//                    data: {
-//                        brands: oData
-//                    },
-//
-//                });
-//
-//                $$('.brand_field').addClass('hide');
-//                $$('.brand_field').removeClass('hide');
-//
-//            }
-//        });
-//    });
-//});

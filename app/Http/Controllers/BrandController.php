@@ -11,8 +11,7 @@ use App\Models\Brand;
 use App\Http\Requests\CreateBrandRequest;
 use App\Http\Requests\EditBrandRequest;
 
-class BrandController extends Controller
-{
+class BrandController extends Controller {
     public function __construct()
     {
         $this->middleware('admin', ['only' => ['store', 'create', 'edit', 'update', 'delete']]);
@@ -54,13 +53,15 @@ class BrandController extends Controller
         //search for brand_id
         $brand_id = Brand::where('name', $request->name)->value('id');
 
-        if ($brand_id) {
+        if ($brand_id)
+        {
             //save to collection
             DB::table('collections')->insert([
                 'brand_id'    => $brand_id,
                 'category_id' => $request->category_id
             ]);
-        } else {
+        } else
+        {
             Brand::create($request->all());
             $brand_id = Brand::where('name', $request->name)->value('id');
 
@@ -84,7 +85,6 @@ class BrandController extends Controller
      */
     public function show($id)
     {
-        //
     }
 
     /**
@@ -96,7 +96,6 @@ class BrandController extends Controller
      */
     public function edit($id)
     {
-        //
         $brand = Brand::find($id);
 
         return view('pages.editbrandform', ['brand' => $brand]);
@@ -112,7 +111,6 @@ class BrandController extends Controller
      */
     public function update(EditBrandRequest $request, $id)
     {
-        //
         $brand = Brand::find($id);
 
         $brand->name = $request->name;
@@ -132,11 +130,15 @@ class BrandController extends Controller
      */
     public function destroy($id)
     {
-//        //Do not delete Brand
-//        $brand = Brand::find($id);
-//
-//        $brand->delete();
-//
-//        return 'Deleted';
+        // Do not delete Brand
+        // Delete collection instead
     }
+
+    public function showManageBrands()
+    {
+        $brands = Category::all();
+
+        return view('brands/showbrands', ['brands' => $brands]);
+    }
+
 }

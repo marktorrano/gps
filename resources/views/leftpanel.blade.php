@@ -47,7 +47,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{url('categories')}}" class="item-link close-panel">
+                        <a href="{{url('manage-categories')}}" class="item-link close-panel">
                             <div class="item-content">
                                 <div class="item-inner">
                                     <div class="item-title">Manage Categories</div>

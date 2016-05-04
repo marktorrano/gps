@@ -6,9 +6,7 @@
             <div class="content-block">
                 <div class="form-container" id="ProductController">
                     <hr/>
-                    {{--<pre>--}}
-                    {{--@{{ $data | json }}--}}
-                    {{--</pre>--}}
+
 
                     <form class="product-form" method="POST" v-on:submit.prevent=" onSubmitForm"
                           enctype="multipart/form-data">
@@ -35,7 +33,9 @@
                         </div>
 
                         <div class="form-group brand_field">
-                            <select name="brand_id" id="brand_id" class="form-control" v-model="choice">
+                            <select name="brand_id" id="brand_id" class="form-control"
+                                    v-model="choice"
+                            >
                                 <option v-for="brand in brands" value="@{{ brand.id }}">@{{ brand.name }}</option>
                             </select>
                         </div>
@@ -43,46 +43,37 @@
 
                         <div class="form-group">
                             {!! Form::label('photo', 'Product Photo') !!}
-                            {!! Form::file('photo','', ['class' => 'form-control', 'v-model' => 'fields.photo']) !!}
+                            <input name="photo" type="file" id="photo" v-on:change="onFileChange">
                         </div>
 
 
                         <button type="submit" class="btn btn-primary" :disabled="errors">Add
                             Product
                         </button>
+                        <br/>
 
                         <div class="alert alert-success" v-if="submitted">New Product Added!</div>
                     </form>
                 </div>
+                <hr/>
+                {{--TODO fix this--}}
+                <div class="content-block-title">Recently Added Products</div>
+                <div class="swiper-container swiper-3">
+                    <div class="swiper-pagination"></div>
+                    <div class="swiper-wrapper">
+                        <div class="swiper-slide" v-for="product in products">
+                            <div class="thumbnail">
 
-                <div class="items col-50">
-                    <div class="thumbnail" v-for="product in products">
-
-                        <a href="">
-                            <img class="group list-group-image" src=""
-                                 alt=""/>
-                        </a>
-
-                        <div class="captions">
-
-                            <div class="row">
-                                <div class="col-100 product-name">
-                                    <p>@{{ product.name }}</p>
-                                </div>
+                                <a :href="'show-items/'+product.id">
+                                    <img class="group list-group-image" v-bind:src="'images/'+product.photos[0].path"
+                                         alt=""/>
+                                </a>
                             </div>
-
                         </div>
                     </div>
-
-                <pre>
-                @{{ $data | json }}
-                </pre>
-
-                    @push('scripts')
-                    <script src="{{url('js/vue-scripts.js')}}"></script>
-                    @endpush
                 </div>
             </div>
         </div>
     </div>
+</div>
 

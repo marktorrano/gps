@@ -5,14 +5,15 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Session;
+use DB;
 
 use App\Http\Requests;
 use App\Models\Category;
+use App\Models\Collection;
 use App\Http\Requests\CreateCategoryRequest;
 use App\Http\Requests\EditCategoryRequest;
 
-class CategoryController extends Controller
-{
+class CategoryController extends Controller {
     public function __construct()
     {
         $this->middleware('admin', ['only' => ['store', 'create', 'edit', 'update', 'delete']]);
@@ -26,7 +27,9 @@ class CategoryController extends Controller
     public function index()
     {
         //
-        return view('categories.showcategories');
+        $categories = Category::all();
+
+        return $categories;
     }
 
     /**
@@ -50,11 +53,12 @@ class CategoryController extends Controller
      */
     public function store(CreateCategoryRequest $request)
     {
+
+
         Category::create($request->all());
 
-        Session::flash('flash_message', 'New Category has been created');
 
-        return redirect('/');
+        return 'created';
 
     }
 
@@ -115,11 +119,18 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        //
-        $category = Category::find($id);
+        $categories = Category::where('id', '=', $id);
 
-        $category->delete();
+        $categories->delete();
 
-        return redirect('/');
+        return 'deleted';
+    }
+
+    public function showManageCategories()
+    {
+
+        $categories = Category::all();
+
+        return view('categories/showcategories', ['categories' => $categories]);
     }
 }

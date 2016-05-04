@@ -23,10 +23,8 @@ Route::get('test', function ()
 
     return $brand_id;
 });
-
 Route::get('welcome', function ()
 {
-
     return view('welcome');
 });
 
@@ -37,31 +35,36 @@ Route::post('password/reset', 'Auth\PasswordController@postReset');
 
 Route::group(['middleware' => 'web'], function ()
 {
+    Route::auth();
     Route::get('/', function ()
     {
-        return view('layout');
+        $categories = App\Models\Category::all();
+
+        return view('layout', ['categories' => $categories]);
     });
-    Route::auth();
+
+    Route::resource('products', 'ProductController');
+    Route::resource('categories', 'CategoryController');
+    Route::resource('brands', 'BrandController');
+    Route::resource('carts', 'CartController');
+    Route::resource('items', 'ItemController');
+
+
+    Route::get('show-items/{product_id}', 'ItemController@fetchProductItems');
+    Route::get('items/create/{product_id}', 'ItemController@create');
+    Route::get('get-all-products', 'ProductController@fetchAllProducts');
+    Route::get('fetchAllItems', 'ItemController@fetchAllItems');
+    Route::get('get-new-products', 'ProductController@fetchNewProducts');
+    Route::get('fetchAllProducts', 'ProductController@fetchAllProducts');
     Route::get('/home', 'HomeController@index');
+    Route::get('manage-categories', 'CategoryController@showManageCategories');
+    Route::get('manage-brands', 'BrandController@showManageBrands');
+
+
     Route::get('cart-items/{product}', function ($product)
     {
         dd($product);
     });
-    Route::resource('carts', 'CartController');
-    Route::resource('items', 'ItemController');
-    Route::get('items/create/{product_id}', 'ItemController@create');
-    Route::resource('brands', 'BrandController');
-    Route::delete('collections/{id}', function ($id)
-    {
-
-        $collection = App\Models\Collection::find($id);
-
-        $collection->delete();
-
-        return 'Deleted';
-
-    });
-
     Route::get('get-items', function ()
     {
         $items = App\Models\Item::all();
@@ -76,7 +79,6 @@ Route::group(['middleware' => 'web'], function ()
 
         return $items;
     });
-
     Route::get('get-brands/{category_id}', function ($category_id)
     {
 
@@ -97,7 +99,6 @@ Route::group(['middleware' => 'web'], function ()
         return $brand_names;
 
     });
-
     Route::get('get-brands', function ()
     {
 
@@ -106,34 +107,12 @@ Route::group(['middleware' => 'web'], function ()
         return $brands;
 
     });
-
-    Route::get('get-new-products', function ()
-    {
-
-        $products = App\Models\Product::all();
-
-        foreach ($products as $product)
-        {
-            foreach ($product->photos as $photo)
-            {
-
-            }
-        }
-
-        return $products;
-    });
-
-
     Route::get('users/{id}', function ($id)
     {
-
         $user = App\Models\User::find($id);
 
         return view('users/showuser', ['user' => $user]);
     });
-
-    Route::resource('categories', 'CategoryController');
-    Route::resource('products', 'ProductController');
     Route::get('products/{category_name}/{brand_name}', function ($category_name, $brand_name)
     {
 
@@ -141,8 +120,27 @@ Route::group(['middleware' => 'web'], function ()
 
         $brand_id = App\Models\Brand::where('name', '=', $brand_name)->value('id');
 
-        $collection = App\Models\Collection::where('brand_id', $brand_id)->where('category_id', $category_id)->first();
+        $collections = App\Models\Collection::where('brand_id', $brand_id)->where('category_id', $category_id)->first();
 
-        return view('products.showproducts', ['products' => $collection->products]);
+        foreach ($collections->products as $collection)
+        {
+
+            foreach ($collection->photos as $photo)
+            {
+            }
+        }
+        return view('products.showproducts', ['products' => $collections->products]);
+    });
+
+
+    //TODO delete collection on categories
+    Route::delete('collections/{id}', function ($id)
+    {
+
+        $collection = App\Models\Collection::find($id);
+
+        $collection->delete();
+
+        return 'Deleted';
     });
 });

@@ -22,7 +22,7 @@
                                             @foreach($category->collections as $collection)
                                                 <li class="swipe-click swipeout">
                                                     <a href="#"
-                                                       class="item-content item-link no-link random-word1 swipeout-content">
+                                                       class="item-content item-link no-link sub-item-link random-word1 swipeout-content">
                                                         <div class="item-inner">
                                                             <div class="item-title-row">
                                                                 <div class="item-title">
