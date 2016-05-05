@@ -37,12 +37,12 @@
                 <a href="{{url('users/'.Auth::user()->id)}}"><i class="fa fa-user fa-2x" aria-hidden="true"></i></a>
 
             @endif
-            <a><i class="fa fa-search fa-2x" aria-hidden="true"></i></a>
+            <a href="{{url('items')}}"><i class="fa fa-search fa-2x" aria-hidden="true"></i></a>
             <a href="{{url('carts')}}"><i class="fa fa-shopping-cart fa-2x" aria-hidden="true"></i></a>
         </div>
 
         <div class="pages navbar-through toolbar-through">
-            <div data-page="index" class="page" id="layout" data-object="{{ $categories }}">
+            <div data-page="index" class="page" id="layout">
 
                 <div class="page-content pull-to-refresh-content" data-ptr-distance="55">
                     <div class="pull-to-refresh-layer">
@@ -112,9 +112,6 @@
                                 @endforeach
                             </ul>
 
-                        <pre>
-                            @{{ categories | json }}
-                        </pre>
                             <div class="accordion-item">
                                 <div class="accordion-item-toggle">
                                 </div>

@@ -27,7 +27,20 @@ class CategoryController extends Controller {
     public function index()
     {
         //
+
         $categories = Category::all();
+
+        foreach ($categories as $category)
+        {
+            foreach ($category->collections as $collection)
+            {
+                foreach ($collection->brand as $brand)
+                {
+
+                }
+            }
+
+        }
 
         return $categories;
     }

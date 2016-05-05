@@ -8,8 +8,15 @@
                 <div class="row no-gutter">
 
                 </div>
+
+
+                {{ Form::open(['method' => 'GET']) }}
+                {{ Form::input('search', 'q', null, ['placeholder' => 'Search...', 'class' => 'form-control search', 'v-model="search"']) }}
+                {{ Form::close() }}
+                <hr/>
+
                 <div class="items col-50">
-                    <div class="thumbnail" v-for="product in products">
+                    <div class="thumbnail" v-for="product in products | filterBy search">
 
                         <a href="{{url('show-items')}}@{{'/' + product.id }}">
                             <img class="group list-group-image" v-bind:src="'images/'+product.photos[0].path"

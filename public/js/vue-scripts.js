@@ -1,17 +1,17 @@
 Vue.http.headers.common['X-CSRF-TOKEN'] = $('#_token').attr('value');
 var url = $('#base_url').data('value');
 
-var oCategories = $(this).data('object');
+//var oCategories = $(this).data('object');
 
 var vm = new Vue({
 
     el: '#layout',
 
     data: {
+
         categories: []
+
     },
-
-
     ready: function () {
         this.fetchCategories();
     },
@@ -19,14 +19,106 @@ var vm = new Vue({
         fetchCategories: function () {
 
             this.$http.get(url + '/categories', function (categories) {
-                vm.$set('categories', categories);
-            });
+                this.$set('categories', categories);
 
+                //console.log(categories[0].collections[0].brand.name);
+            });
         }
     }
+
 });
 
-myApp.onPageInit('items-show', function (page) {
+myApp.onPageInit('items-create', function () {
+
+    new Vue({
+
+        el: '#items',
+
+        data: {
+
+            metas: [],
+
+            submitted: false,
+
+            fields: {
+                name: '',
+                price: '',
+                photo: ''
+            }
+        },
+
+
+        ready: function () {
+
+            this.fetchMetas();
+
+        },
+
+        computed: {
+            errors: function () {
+
+                for (var key in this.fields) {
+                    if (!this.fields[key]) return true;
+                }
+
+                return false;
+            }
+        },
+
+        methods: {
+
+            fetchMetas: function () {
+
+                //get request
+                //this.$http.get(url + '/metas', function (metas) {
+                //    this.$set('metas', metas);
+                //});
+
+            },
+
+            pushTag: function () {
+
+                this.metas.push($('#meta').val());
+
+                $('#meta').val('');
+
+            },
+
+            onSubmitForm: function (e) {
+
+                var fd = new FormData(document.querySelector('form'));
+
+                $('#photo').val('');
+
+                this.$http.post(url + '/items', fd);
+
+                this.submitted = true;
+
+                this.fields = {
+                    name: '', description: '', photo: ''
+                }
+
+            },
+
+            onFileChange: function (e) {
+
+                var files = e.target.files || e.dataTransfer.files;
+                if (!files.length) {
+
+                }
+
+                this.fields.photo = files;
+                console.log(files);
+
+            },
+
+
+        }
+
+    });
+
+});
+myApp.onPageInit('items-show', function () {
     new Vue({
         el: '#items',
         data: {
@@ -46,7 +138,26 @@ myApp.onPageInit('items-show', function (page) {
         }
     });
 });
-myApp.onPageInit('search-products', function (page) {
+myApp.onPageInit('product-items', function () {
+
+
+    console.log(this);
+    var oItems = $('#items').data('object');
+
+    console.log(oItems);
+
+    new Vue({
+        el: '#items',
+        data: {
+            items: [],
+            search: ''
+        },
+        ready: function () {
+            this.items = oItems;
+        }
+    });
+});
+myApp.onPageInit('search-products', function () {
     new Vue({
         el: '#search-products',
         data: {
@@ -70,7 +181,7 @@ myApp.onPageInit('search-products', function (page) {
         }
     });
 });
-myApp.onPageInit('products-show', function (page) {
+myApp.onPageInit('products-show', function () {
     new Vue({
         el: '#all-products',
         data: {
@@ -98,7 +209,7 @@ myApp.onPageInit('products-show', function (page) {
         }
     });
 });
-myApp.onPageInit('products-create', function (page) {
+myApp.onPageInit('products-create', function () {
 
     var mySwiper3 = myApp.swiper('.swiper-3', {
         pagination: '.swiper-3 .swiper-pagination',
@@ -190,7 +301,7 @@ myApp.onPageInit('products-create', function (page) {
         }
     });
 });
-myApp.onPageInit('categories-create', function (page) {
+myApp.onPageInit('categories-create', function () {
 
     var vm = new Vue({
         el: '#categories',
@@ -249,7 +360,7 @@ myApp.onPageInit('categories-create', function (page) {
 
     });
 });
-myApp.onPageInit('categories-manage', function (page) {
+myApp.onPageInit('categories-manage', function () {
 
     var oCategories = $('#categories').data('object');
 

@@ -13,7 +13,7 @@ class Meta extends Model {
 
     protected $fillable = [
 
-        'name'
+        'name', 'value'
 
     ];
 
