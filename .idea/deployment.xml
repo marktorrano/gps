@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="gps-aws-ec2">
+  <component name="PublishConfigData" serverName="gps-aws-dev">
     <serverData>
-      <paths name="gps-aws-ec2">
+      <paths name="gps-aws-dev">
         <serverdata>
           <mappings>
             <mapping deploy="/var/www/gps-dev" local="$PROJECT_DIR$" web="/" />
@@ -14,6 +14,13 @@
             <excludedPath local="true" path="$PROJECT_DIR$/vendor" />
             <excludedPath path="/var/www/gps-dev/vendor" />
           </excludedPaths>
+        </serverdata>
+      </paths>
+      <paths name="gps-prod">
+        <serverdata>
+          <mappings>
+            <mapping deploy="/var/www/gps" local="$PROJECT_DIR$" web="/" />
+          </mappings>
         </serverdata>
       </paths>
     </serverData>

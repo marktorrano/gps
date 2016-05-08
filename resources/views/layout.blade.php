@@ -49,11 +49,7 @@
                         <div class="preloader"></div>
                         <div class="pull-to-refresh-arrow"></div>
                     </div>
-                    <div class="list-block">
-
-                        {{--<img class="block-banner" src="{{asset('images/banner.png')}}"/>--}}
-                    </div>
-                    <div class="list-block">
+                    <div class="list-block category-list-nav">
                         <div class="list-block accordion-list">
                             <ul>
                                 <li class="accordion-item">
@@ -95,7 +91,11 @@
                                                     @foreach($category->collections as $collection)
                                                         <li>
                                                             <a href="{{url('products/'.$category->name.'/'.$collection->brand->name)}}"
-                                                               class="item-link close-panel">
+                                                               class="item-link close-panel"
+                                                               data-category_name="{{$category->name}}"
+                                                               data-brand_name="{{$collection->brand->name}}"
+                                                               :click="setParameters"
+                                                            >
                                                                 <div class="item-content">
                                                                     <div class="item-inner">
                                                                         <div class="item-title sub-link">{{ucwords(strtolower($collection->brand->name))}}</div>
@@ -112,7 +112,7 @@
                                 @endforeach
                             </ul>
 
-                            <div class="accordion-item">
+                            <div class=" accordion-item">
                                 <div class="accordion-item-toggle">
                                 </div>
                                 <div class="accordion-item-content">Link</div>

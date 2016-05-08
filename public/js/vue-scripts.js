@@ -1,32 +1,26 @@
 Vue.http.headers.common['X-CSRF-TOKEN'] = $('#_token').attr('value');
 var url = $('#base_url').data('value');
 
-//var oCategories = $(this).data('object');
+$('.item-link').on('click', function () {
 
-var vm = new Vue({
-
-    el: '#layout',
-
-    data: {
-
-        categories: []
-
-    },
-    ready: function () {
-        this.fetchCategories();
-    },
-    methods: {
-        fetchCategories: function () {
-
-            this.$http.get(url + '/categories', function (categories) {
-                this.$set('categories', categories);
-
-                //console.log(categories[0].collections[0].brand.name);
-            });
-        }
-    }
+    category_name = $(this).data('category_name');
+    brand_name = $(this).data('brand_name');
 
 });
+
+myApp.onPageInit('index', function () {
+
+    var ptrContent = $$('.pull-to-refresh-content');
+
+    ptrContent.on('refresh', function (e) {
+        setTimeout(function () {
+
+            myApp.pullToRefreshDone();
+
+        }, 1000);
+    });
+});
+
 
 myApp.onPageInit('items-create', function () {
 
@@ -141,7 +135,6 @@ myApp.onPageInit('items-show', function () {
 myApp.onPageInit('product-items', function () {
 
 
-    console.log(this);
     var oItems = $('#items').data('object');
 
     console.log(oItems);
@@ -158,6 +151,8 @@ myApp.onPageInit('product-items', function () {
     });
 });
 myApp.onPageInit('search-products', function () {
+
+
     new Vue({
         el: '#search-products',
         data: {
@@ -165,9 +160,22 @@ myApp.onPageInit('search-products', function () {
             search: ''
         },
         ready: function () {
+
+            this.fetchProducts();
+
             this.products = $('#search-products').data('object');
         },
         methods: {
+
+            fetchProducts: function () {
+
+                this.$http.get(url + '/fetch-products/' + category_name + '/' + brand_name, function (products) {
+                    this.$set('products', products);
+                    category_name = '';
+                    brand_name = '';
+                });
+
+            },
 
             deleteProduct: function (product) {
 
@@ -343,14 +351,17 @@ myApp.onPageInit('categories-create', function () {
 
             },
 
-            addCategory: function (e) {
+            onSubmitForm: function (e) {
                 e.preventDefault();
 
                 var fd = new FormData(document.querySelector('form'));
 
                 $('#name').val('');
 
-                this.$http.post(url + '/categories', fd);
+                this.$http.post(url + '/categories', fd, function (response) {
+                    $('#category-list').append('<li>' + response + '</li>');
+                });
+
 
                 this.submitted = true;
 

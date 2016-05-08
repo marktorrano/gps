@@ -1,7 +1,7 @@
 @include('navigation')
 
 <div class="pages navbar-through">
-    <div data-page="search-products" class="page" id="search-products" data-object="{{$products}}">
+    <div data-page="search-products" class="page" id="search-products" id="products">
         <div class="page-content">
             <div class="content-block-title">Products</div>
             <div class="content-block">

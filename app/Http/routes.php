@@ -131,6 +131,24 @@ Route::group(['middleware' => 'web'], function ()
         }
         return view('products.showproducts', ['products' => $collections->products]);
     });
+    Route::get('fetch-products/{category_name}/{brand_name}', function ($category_name, $brand_name)
+    {
+
+        $category_id = App\Models\Category::where('name', '=', $category_name)->value('id');
+
+        $brand_id = App\Models\Brand::where('name', '=', $brand_name)->value('id');
+
+        $collections = App\Models\Collection::where('brand_id', $brand_id)->where('category_id', $category_id)->first();
+
+        foreach ($collections->products as $collection)
+        {
+
+            foreach ($collection->photos as $photo)
+            {
+            }
+        }
+        return $collections->products;
+    });
 
 
     //TODO delete collection on categories

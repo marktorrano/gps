@@ -68,10 +68,9 @@ class CategoryController extends Controller {
     {
 
 
-        Category::create($request->all());
+        $category = Category::create($request->all());
 
-
-        return 'created';
+        return $category->name;
 
     }
 
@@ -135,8 +134,6 @@ class CategoryController extends Controller {
         $categories = Category::where('id', '=', $id);
 
         $categories->delete();
-
-        return 'deleted';
     }
 
     public function showManageCategories()

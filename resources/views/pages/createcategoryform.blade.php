@@ -18,15 +18,15 @@
                     <button type="submit" class="btn btn-primary" :disabled="errors">Add
                         Category
                     </button>
-
-                    <div class="alert alert-success" v-if="submitted">New Product Added!</div>
+                    <hr/>
+                    <div class="alert alert-success" v-if="submitted">New Category Added!</div>
                     {!! Form::close() !!}
 
                 </div>
                 <hr/>
                 <h4>List of Categories</h4>
-                <ul>
-                    <li v-for="category in categories">@{{ category.name }}</li>
+                <ul id="category-list">
+                    <li v-for="category in categories">@{{ category.name | capitalize}}</li>
                 </ul>
             </div>
         </div>

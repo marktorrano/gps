@@ -6,29 +6,15 @@ $(document).ready(function () {
         }
     });
 
-
     var ptrContent = $$('.pull-to-refresh-content');
 
     ptrContent.on('refresh', function (e) {
         setTimeout(function () {
+
+            myApp.pullToRefreshDone();
+
         }, 1000);
     });
-
-    //$$(document).on('click', '.delete', function (e) {
-    //    e.preventDefault();
-    //    var url = $$(this).attr("href");
-    //    var data = [];
-    //    data["_token"] = $$('[name="_token"]').val();
-    //    var link = $$(this);
-    //    $$.ajax({
-    //        url: url,
-    //        type: "DELETE",
-    //        data: data,
-    //        success: function (response) {
-    //            console.log(response);
-    //        }
-    //    });
-    //});
 
     $$(document).on("click", ".swipe-click", function () {
         if (!$$(this).hasClass('swipeout-opened')) {
