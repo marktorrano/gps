@@ -7,9 +7,7 @@ myApp.onPageInit('index', function () {
 
     ptrContent.on('refresh', function (e) {
         setTimeout(function () {
-
-            myApp.pullToRefreshDone();
-
+            location.reload();
         }, 1000);
     });
 });
@@ -395,4 +393,33 @@ var categories_manage = myApp.onPageInit('categories-manage', function () {
 
 });
 
-console.log(categories_manage.data);
+var brands_manage = myApp.onPageInit('brands-manage', function () {
+
+    var oBrands = $('#brands').data('object');
+
+    var vm = new Vue({
+
+        el: '#brands',
+
+        data: {},
+
+        methods: {
+
+            deleteBrand: function (brand_id) {
+
+                this.$http.delete(url + '/brands/' + brand_id, function (response) {
+                });
+
+            }
+        }
+
+    });
+
+    $$(document).on('delete', '.swipeout', function () {
+        $brand_id = $(this).data('id');
+        console.log($brand_id);
+        vm.deleteBrand($brand_id);
+    });
+
+
+});

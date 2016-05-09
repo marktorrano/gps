@@ -14,7 +14,7 @@
                 <div id="products" class="row list-group">
 
                     <div class="item  col-xs-6 col-lg-4 col-sm-6" v-for="item in items | filterBy search">
-                        <div class="">
+                        <div class="thumbnail">
                             <img class="group list-group-image"
                                  :src="'images/'+item.photos[0].path"
                                  alt=""/>

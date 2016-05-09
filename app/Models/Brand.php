@@ -12,6 +12,10 @@ class Brand extends Model {
 
     protected $dates = ['deleted_at'];
 
+    protected $visible = [
+        'name'
+    ];
+
     protected $fillable = [
         'name'
     ];

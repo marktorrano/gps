@@ -132,6 +132,12 @@ class BrandController extends Controller {
     {
         // Do not delete Brand
         // Delete collection instead
+
+        $collection = Collection::find($id);
+
+        $collection->delete();
+
+        return 'brand deleted';
     }
 
     public function showManageBrands()
