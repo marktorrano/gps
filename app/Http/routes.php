@@ -49,7 +49,6 @@ Route::group(['middleware' => 'web'], function ()
     Route::resource('carts', 'CartController');
     Route::resource('items', 'ItemController');
 
-
     Route::get('show-items/{product_id}', 'ItemController@fetchProductItems');
     Route::get('items/create/{product_id}', 'ItemController@create');
     Route::get('get-all-products', 'ProductController@fetchAllProducts');
@@ -59,7 +58,6 @@ Route::group(['middleware' => 'web'], function ()
     Route::get('/home', 'HomeController@index');
     Route::get('manage-categories', 'CategoryController@showManageCategories');
     Route::get('manage-brands', 'BrandController@showManageBrands');
-
 
     Route::get('cart-items/{product}', function ($product)
     {
@@ -149,16 +147,10 @@ Route::group(['middleware' => 'web'], function ()
         }
         return $collections->products;
     });
-
-
-    //TODO delete collection on categories
     Route::delete('collections/{id}', function ($id)
     {
-
         $collection = App\Models\Collection::find($id);
 
         $collection->delete();
-
-        return 'Deleted';
     });
 });

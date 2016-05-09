@@ -10,8 +10,7 @@ use DB;
 use App\Http\Requests;
 use App\Http\Requests\CreateItemRequest;
 
-class ItemController extends Controller
-{
+class ItemController extends Controller {
 
     /**
      * Display a listing of the resource.
@@ -25,20 +24,6 @@ class ItemController extends Controller
         return view('items/showitems', ['items' => $items]);
     }
 
-    public function fetchAllItems()
-    {
-
-        $items = Item::all();
-
-        foreach ($items as $item) {
-            foreach ($item->photos as $photo) {
-
-            }
-        }
-
-        return $items;
-
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -68,11 +53,11 @@ class ItemController extends Controller
         $request->file('photo')->move('images', $newName);
 
         DB::table('photos')->insert([
-            'path' => $newName,
-            'imageable_id' => $item->id,
+            'path'           => $newName,
+            'imageable_id'   => $item->id,
             'imageable_type' => 'App\Models\Item',
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now()
+            'created_at'     => Carbon::now(),
+            'updated_at'     => Carbon::now()
         ]);
 
         $item->save();
@@ -91,9 +76,16 @@ class ItemController extends Controller
     public function show($id)
     {
         //
-        $items = Item::findOrFail($id);
+        $items = Item::where('product_id', $id)->get();
+        foreach ($items as $item)
+        {
+            foreach ($item->photos as $photo)
+            {
 
-        return view('items/showitem', ['items' => $items]);
+            }
+        }
+
+        return view('items/showproductitems', ['items' => $items]);
     }
 
     /**
@@ -131,14 +123,39 @@ class ItemController extends Controller
     public function destroy($id)
     {
         //
+
+        $item = Item::findOrFail($id);
+
+        $item->delete();
+
+        return 'deleted';
+    }
+
+    public function fetchAllItems()
+    {
+
+        $items = Item::all();
+
+        foreach ($items as $item)
+        {
+            foreach ($item->photos as $photo)
+            {
+
+            }
+        }
+
+        return $items;
+
     }
 
     public function fetchProductItems($product_id)
     {
         $items = Item::where('product_id', $product_id)->get();
 
-        foreach ($items as $item) {
-            foreach ($item->photos as $photo) {
+        foreach ($items as $item)
+        {
+            foreach ($item->photos as $photo)
+            {
 
             }
         }

@@ -50,8 +50,16 @@ a:hover, a:active, a:link {
   }
 }
 
+.thumbnail {
+  min-height: 20em;
+}
+
 .caption {
-  font-size: .8em;
+  font-size: 1em;
+
+  .lead {
+    font-size: .8em;
+  }
   div {
     width: 100%;
     overflow: hidden;

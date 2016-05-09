@@ -92,9 +92,7 @@
                                                         <li>
                                                             <a href="{{url('products/'.$category->name.'/'.$collection->brand->name)}}"
                                                                class="item-link close-panel"
-                                                               data-category_name="{{$category->name}}"
-                                                               data-brand_name="{{$collection->brand->name}}"
-                                                               :click="setParameters"
+                                                               v-on:click="onProductSelect('{{$category->name}}', '{{$collection->brand->name}}')"
                                                             >
                                                                 <div class="item-content">
                                                                     <div class="item-inner">
@@ -111,7 +109,6 @@
                                     </li>
                                 @endforeach
                             </ul>
-
                             <div class=" accordion-item">
                                 <div class="accordion-item-toggle">
                                 </div>

@@ -9,15 +9,18 @@
                 {{ Form::input('search', 'q', null, ['placeholder' => 'Search...', 'class' => 'form-control search', 'v-model="search"']) }}
                 {{ Form::close() }}
                 <hr/>
+
+                <p :if="isEmpty">No items for this product</p>
                 <div id="products" class="row list-group">
 
-                    <div class="item  col-xs-12 col-lg-4 col-sm-6" v-for="item in items | filterBy search">
-                        <div class="thumbnail">
-                            <img class="group list-group-image" v-bind:src="'images/'+item.photos[0].path"
+                    <div class="item  col-xs-6 col-lg-4 col-sm-6" v-for="item in items | filterBy search">
+                        <div class="">
+                            <img class="group list-group-image"
+                                 :src="'images/'+item.photos[0].path"
                                  alt=""/>
                             <div class="caption">
-                                <h4 class="group inner list-group-item-heading">
-                                    @{{ item.name }}</h4>
+                                <p class="group inner list-group-item-heading">
+                                    @{{ item.name }}</p>
                                 <p class="group inner list-group-item-text">
                                     @{{ item.description }}</p>
                                 <div class="row">
@@ -26,10 +29,11 @@
                                             @{{ item.price | currency }}</p>
                                     </div>
                                     <div class="col-xs-12 col-md-6">
-                                        <button class="btn btn- addtocart" data-item_id=""
-                                                href="{{url('carts')}}" :disabled="true">Add to
-                                            cart
-                                        </button>
+
+                                        <p><a href="{{url('carts')}}" class="button button-round active"
+                                              :disabled="true">
+                                                Add to cart</a>
+                                        </p>
                                     </div>
                                 </div>
                             </div>

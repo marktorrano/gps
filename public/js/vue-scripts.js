@@ -1,13 +1,6 @@
 Vue.http.headers.common['X-CSRF-TOKEN'] = $('#_token').attr('value');
 var url = $('#base_url').data('value');
 
-$('.item-link').on('click', function () {
-
-    category_name = $(this).data('category_name');
-    brand_name = $(this).data('brand_name');
-
-});
-
 myApp.onPageInit('index', function () {
 
     var ptrContent = $$('.pull-to-refresh-content');
@@ -20,8 +13,6 @@ myApp.onPageInit('index', function () {
         }, 1000);
     });
 });
-
-
 myApp.onPageInit('items-create', function () {
 
     new Vue({
@@ -128,6 +119,10 @@ myApp.onPageInit('items-show', function () {
                 this.$http.get(url + '/fetchAllItems', function (items) {
                     this.$set('items', items);
                 });
+            },
+            onDelete: function (e) {
+                var id = e.data('id');
+                this.$http.delete(url + '/items/' + id);
             }
         }
     });
@@ -137,13 +132,11 @@ myApp.onPageInit('product-items', function () {
 
     var oItems = $('#items').data('object');
 
-    console.log(oItems);
-
     new Vue({
         el: '#items',
         data: {
             items: [],
-            search: ''
+            search: '',
         },
         ready: function () {
             this.items = oItems;
@@ -151,43 +144,41 @@ myApp.onPageInit('product-items', function () {
     });
 });
 myApp.onPageInit('search-products', function () {
-
-
-    new Vue({
-        el: '#search-products',
-        data: {
-            products: [],
-            search: ''
-        },
-        ready: function () {
-
-            this.fetchProducts();
-
-            this.products = $('#search-products').data('object');
-        },
-        methods: {
-
-            fetchProducts: function () {
-
-                this.$http.get(url + '/fetch-products/' + category_name + '/' + brand_name, function (products) {
-                    this.$set('products', products);
-                    category_name = '';
-                    brand_name = '';
-                });
-
-            },
-
-            deleteProduct: function (product) {
-
-                var that = this;
-                this.$http.delete(url + '/products/' + product.id, function (response) {
-                    //delete from the list
-                    console.log(response);
-                    that.products.$remove(product);
-                });
-            }
-        }
-    });
+    //
+    //
+    //new Vue({
+    //    el: '#search-products',
+    //    data: {
+    //        products: [],
+    //        search: ''
+    //    },
+    //    ready: function () {
+    //
+    //        this.fetchProducts();
+    //
+    //        this.products = $('#search-products').data('object');
+    //    },
+    //    methods: {
+    //
+    //        fetchProducts: function () {
+    //
+    //            this.$http.get(url + '/fetch-products/' + category_name + '/' + brand_name, function (products) {
+    //                this.$set('products', products);
+    //            });
+    //
+    //        },
+    //
+    //        deleteProduct: function (product) {
+    //
+    //            var that = this;
+    //            this.$http.delete(url + '/products/' + product.id, function (response) {
+    //                //delete from the list
+    //                console.log(response);
+    //                that.products.$remove(product);
+    //            });
+    //        }
+    //    }
+    //});
 });
 myApp.onPageInit('products-show', function () {
     new Vue({
@@ -371,7 +362,8 @@ myApp.onPageInit('categories-create', function () {
 
     });
 });
-myApp.onPageInit('categories-manage', function () {
+
+var categories_manage = myApp.onPageInit('categories-manage', function () {
 
     var oCategories = $('#categories').data('object');
 
@@ -388,7 +380,6 @@ myApp.onPageInit('categories-manage', function () {
             deleteCategory: function (category_id) {
 
                 this.$http.delete(url + '/categories/' + category_id, function (response) {
-                    console.log(response);
                 });
 
             }
@@ -403,3 +394,5 @@ myApp.onPageInit('categories-manage', function () {
 
 
 });
+
+console.log(categories_manage.data);

@@ -5792,8 +5792,13 @@ a:hover, a:active, a:link {
 .user-details .user-name {
   text-transform: capitalize; }
 
+.thumbnail {
+  min-height: 20em; }
+
 .caption {
-  font-size: .8em; }
+  font-size: 1em; }
+  .caption .lead {
+    font-size: .8em; }
   .caption div {
     width: 100%;
     overflow: hidden; }
