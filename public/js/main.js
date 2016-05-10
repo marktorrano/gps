@@ -6,6 +6,12 @@ $(document).ready(function () {
         }
     });
 
+    $$(document).on('click', '#pageRefresh', function () {
+        location.reload();
+
+    });
+
+
     var ptrContent = $$('.pull-to-refresh-content');
 
     ptrContent.on('refresh', function (e) {

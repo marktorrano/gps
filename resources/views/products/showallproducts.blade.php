@@ -1,7 +1,8 @@
 @include('navigation')
 
 <div class="pages navbar-through">
-    <div data-page="products-show" id="all-products" class="page" data-url="{{url('products')}}">
+    <div data-page="products-show" id="all-products" class="page" data-url="{{url('products')}}"
+         data-object="{{ $products }}">
         <div class="page-content">
             <div class="content-block-title">Products</div>
             <div class="content-block">
@@ -15,7 +16,7 @@
                 <div class="items col-50" v-for="product in products | filterBy search">
                     <div class="thumbnail">
                         <a href="">
-                            <img class="group list-group-image" v-bind:src="'images/'+product.photos[0].path"
+                            <img class="group list-group-image" :src="'images/'+product.photos[0].path"
                                  alt=""/>
                         </a>
 
@@ -30,9 +31,9 @@
                         </div>
                         @if(Auth::check() && Auth::user()->is_admin == '1')
                             <p class="buttons-row theme-blue">
-                                <a href="{{url('items/create/')}}" class="button">Add Item</a>
-                                <a href="{{url('products/')}}" class="button">Edit</a>
-                                <a href="{{url('products/')}}" class="button delete">Delete</a>
+                                <a href="{{url('items/create')}}@{{ '/' + product.id }}" class="button">Add Item</a>
+                                <a href="{{url('products/')}}@{{ product.id + '/edit' }}" class="button">Edit</a>
+                                <a href="#" class="button delete">Delete</a>
                             </p>
                         @endif
                     </div>

@@ -28,7 +28,6 @@
                                        class="swipeout-delete delete"
                                        data-confirm="Are you sure want to delete this item?"
                                        data-confirm-title="Delete?"
-                                            {{--v-on:click="deleteCategory(category)"--}}
                                     >Delete</a>
                                 </div>
                             @endif

@@ -128,6 +128,10 @@ myApp.onPageInit('items-show', function () {
 myApp.onPageInit('product-items', function () {
 
 
+    var mySwiper = myApp.swiper('.swiper-container', {
+        pagination: '.swiper-pagination'
+    });
+
     var oItems = $('#items').data('object');
 
     new Vue({
@@ -138,8 +142,12 @@ myApp.onPageInit('product-items', function () {
         },
         ready: function () {
             this.items = oItems;
+
+
         }
     });
+
+
 });
 myApp.onPageInit('search-products', function () {
     //
@@ -179,23 +187,18 @@ myApp.onPageInit('search-products', function () {
     //});
 });
 myApp.onPageInit('products-show', function () {
+
+    var oProducts = $('#all-products').data('object');
+
     new Vue({
         el: '#all-products',
         data: {
-            products: [],
+            products: oProducts,
             search: ''
         },
         ready: function () {
-            this.fetchProducts();
         },
         methods: {
-            fetchProducts: function () {
-                this.$http.get(url + '/get-all-products', function (products) {
-                    console.log(products)
-                    this.$set('products', products);
-                });
-            },
-
             deleteProduct: function (e) {
                 e.preventDefault();
                 console.log(e);
@@ -345,12 +348,11 @@ myApp.onPageInit('categories-create', function () {
 
                 var fd = new FormData(document.querySelector('form'));
 
-                $('#name').val('');
 
                 this.$http.post(url + '/categories', fd, function (response) {
                     $('#category-list').append('<li>' + response + '</li>');
+                    $('#name').val('');
                 });
-
 
                 this.submitted = true;
 
@@ -392,7 +394,6 @@ var categories_manage = myApp.onPageInit('categories-manage', function () {
 
 
 });
-
 var brands_manage = myApp.onPageInit('brands-manage', function () {
 
     var oBrands = $('#brands').data('object');
@@ -417,7 +418,6 @@ var brands_manage = myApp.onPageInit('brands-manage', function () {
 
     $$(document).on('delete', '.swipeout', function () {
         $brand_id = $(this).data('id');
-        console.log($brand_id);
         vm.deleteBrand($brand_id);
     });
 

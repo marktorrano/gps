@@ -27,4 +27,12 @@ php artisan make:controller LoginController
 
 php artisan make:controller ProductController --resource
 
-TODO Search, metas, User details, Cart, checkout, payment, slider on app init
+TODO metas, User details, Cart, checkout, payment, slider on app init
+
+ssh -i "ebd-dev.pem" ubuntu@ec2-52-63-152-147.ap-southeast-2.compute.amazonaws.com
+
+sudo cp -a gps-dev/. /var/www/gps/
+
+sudo chgrp -R www-data storage bootstrap/cache
+
+sudo chmod -R ug+rwx storage bootstrap/cache

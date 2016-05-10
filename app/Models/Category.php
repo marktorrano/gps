@@ -13,7 +13,7 @@ class Category extends Model {
     protected $dates = ['deleted_at'];
 
     protected $visible = [
-        'name'
+        'name', 'id'
     ];
 
     protected $fillable = [

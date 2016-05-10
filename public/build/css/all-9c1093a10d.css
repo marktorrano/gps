@@ -5843,6 +5843,35 @@ a:hover, a:active, a:link {
   height: 120px;
   margin: 35px 0; }
 
+.item {
+  padding: 0 3px !important; }
+
+.item-img {
+  min-height: 15em;
+  max-height: 15em;
+  overflow: hidden; }
+  .item-img img {
+    width: 100%; }
+
+.product-img {
+  min-height: 12em;
+  max-height: 25em;
+  overflow: hidden; }
+  .product-img img {
+    width: 100%; }
+
+.search-bar {
+  width: 100%;
+  border: none;
+  outline: none;
+  height: 2em;
+  background: none; }
+
+input[type='text'],
+input[type='number'],
+textarea {
+  font-size: 16px; }
+
 /*# sourceMappingURL=app.css.map */
 
 /*!

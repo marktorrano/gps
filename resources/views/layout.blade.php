@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
     <meta name="csrf-token" content="{{ csrf_token() }}" id="_token" value="{{ csrf_token() }}">
     <meta id="base_url" data-value="{{url('/')}}">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
     <script src="{{url('js/vendor/template7.js')}}"></script>
     <link rel="stylesheet" href="{{asset(elixir('css/all.css'))}}"/>
 </head>
@@ -23,7 +23,7 @@
         <div class="navbar">
             <div class="navbar-inner">
                 <div class="left"></div>
-                <div class="center sliding"><a href="{{url('/')}}">GPS
+                <div class="center sliding"><a href="{{url('/')}}" id="pageRefresh">GPS
                     </a></div>
                 <div class="right"><a href="#" class="open-panel link icon-only"><i class="icon icon-bars"></i></a>
                 </div>
@@ -92,7 +92,7 @@
                                                         <li>
                                                             <a href="{{url('products/'.$category->name.'/'.$collection->brand->name)}}"
                                                                class="item-link close-panel"
-                                                               v-on:click="onProductSelect('{{$category->name}}', '{{$collection->brand->name}}')"
+                                                               :click="onProductSelect('{{$category->name}}', '{{$collection->brand->name}}')"
                                                             >
                                                                 <div class="item-content">
                                                                     <div class="item-inner">

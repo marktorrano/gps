@@ -12,6 +12,8 @@
                 {{ Form::close() }}
                 <hr/>
 
+
+
                 <div v-for="item in items | filterBy search" class="item col-xs-6 col-lg-4 col-sm-6">
                     <div class="thumbnail">
 

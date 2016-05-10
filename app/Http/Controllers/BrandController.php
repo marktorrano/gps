@@ -8,6 +8,7 @@ use DB;
 
 use App\Http\Requests;
 use App\Models\Brand;
+use App\Models\Collection;
 use App\Http\Requests\CreateBrandRequest;
 use App\Http\Requests\EditBrandRequest;
 
@@ -130,9 +131,6 @@ class BrandController extends Controller {
      */
     public function destroy($id)
     {
-        // Do not delete Brand
-        // Delete collection instead
-
         $collection = Collection::find($id);
 
         $collection->delete();

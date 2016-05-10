@@ -16,6 +16,10 @@ class User extends Authenticatable {
         'name', 'email', 'password', 'is_admin'
     ];
 
+    protected $visible = [
+        'name', 'email', 'photos'
+    ];
+
     /**
      * The attributes excluded from the model's JSON form.
      *

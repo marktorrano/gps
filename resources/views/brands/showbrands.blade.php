@@ -1,7 +1,7 @@
 @include('navigation')
 
 <div class="pages navbar-through">
-    <div data-page="brands" class="page" data-object="{{ $brands  }}">
+    <div data-page="brands-manage" id="brands" class="page" data-object="{{ $brands  }}">
         <div class="page-content">
             <div class="content-block-title">Manage Brands</div>
             <div class="list-block">
@@ -18,7 +18,6 @@
                                     <div class="list-block">
                                         <ul>
 
-                                            {{--TODO this--}}
                                             @foreach($category->collections as $collection)
                                                 <li class="swipe-click swipeout" data-id="{{$collection->id}}">
                                                     <a href="#"
