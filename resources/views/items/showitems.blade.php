@@ -13,12 +13,13 @@
                 <hr/>
 
 
-
-                <div v-for="item in items | filterBy search" class="item col-xs-6 col-lg-4 col-sm-6">
+                <div v-for="item in items | filterBy search" class="item col-xs-6 col-lg-4 col-sm-6"
+                >
                     <div class="thumbnail">
-
-                        <img class="group list-group-image" :src="'images/'+item.photos[0].path"
-                             alt=""/>
+                        <div class="item-img">
+                            <img class="group list-group-image" :src="'images/'+item.photos[0].path"
+                                 alt=""/>
+                        </div>
                         <div class="caption">
                             <h4 class="group inner list-group-item-heading">
                             </h4>
@@ -27,13 +28,18 @@
                                     <p class="lead">
                                         @{{ item.name }}
                                     </p>
+                                    <span class="lead">
+                                            @{{ item.price | currency }}</span>
                                     <p>
-                                        <a href="{{url('carts')}}" class="button button-round active"
-                                           :disabled="true">
-                                            Add to cart
-                                        </a>
+                                        <button class="button button-round active"
+                                                :disabled="false"
+                                        @click="onAddToCart(item)"
+                                        data-id="@{{ item.id }}">
+                                        Add to cart
+                                        </button>
 
                                         <a href="#" class="button button-round active"
+                                           v-show="false"
                                            :click="onDelete"
                                            data-id="@{{ item.id }}">
                                             Delete Item

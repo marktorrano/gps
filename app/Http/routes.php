@@ -1,28 +1,6 @@
 <?php
 
-Route::get('test', function ()
-{
 
-    $category_id = 1;
-
-    $brands = App\Models\Collection::where('category_id', $category_id)->get();
-
-    foreach ($brands as $brand)
-    {
-
-        $brand_ = App\Models\Brand::find($brand->brand_id);
-
-        $brand_names[] = [
-            'name' => $brand_->name,
-            'id'   => $brand_->id
-        ];
-    }
-
-
-    return $brand_names;
-
-    return $brand_id;
-});
 Route::get('welcome', function ()
 {
     return view('welcome');
@@ -43,12 +21,44 @@ Route::group(['middleware' => 'web'], function ()
         return view('layout', ['categories' => $categories]);
     });
 
+    Route::get('test', function ()
+    {
+
+        dd(\Cart::contents());
+    });
+
+
     Route::resource('products', 'ProductController');
     Route::resource('categories', 'CategoryController');
     Route::resource('brands', 'BrandController');
     Route::resource('carts', 'CartController');
     Route::resource('items', 'ItemController');
 
+    Route::get('get-cart-items', function ()
+    {
+
+        return \Cart::contents();
+    });
+    Route::post('oders/checkout', function ()
+    {
+        $order = new \App\Models\Order();
+
+        $order->user_id = Auth::user()->id;
+        $order->status = "Pending";
+        $order->save();
+
+        foreach (Cart::contents() as $item)
+        {
+
+//            $order->products()->attach($item->id, ['quantity' => $item->quantity]);
+
+        }
+
+        Cart::destroy();
+
+        return redirect('/');
+
+    });
     Route::get('show-items/{product_id}', 'ItemController@fetchProductItems');
     Route::get('items/create/{product_id}', 'ItemController@create');
     Route::get('get-all-products', 'ProductController@fetchAllProducts');
@@ -59,10 +69,7 @@ Route::group(['middleware' => 'web'], function ()
     Route::get('manage-categories', 'CategoryController@showManageCategories');
     Route::get('manage-brands', 'BrandController@showManageBrands');
 
-    Route::get('cart-items/{product}', function ($product)
-    {
-        dd($product);
-    });
+    Route::get('carts-items/{id}', 'CartController@addToCart');
     Route::get('get-items', function ()
     {
         $items = App\Models\Item::all();

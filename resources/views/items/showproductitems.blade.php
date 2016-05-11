@@ -30,7 +30,7 @@
                                     <div class="col-xs-12 col-md-6">
 
                                         <p><a href="{{url('carts')}}" class="button button-round active"
-                                              :disabled="true">
+                                              :disabled="false">
                                                 Add to cart</a>
                                         </p>
                                     </div>

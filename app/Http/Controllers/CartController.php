@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Item;
+use Moltin\Cart\Cart;
 
 use App\Http\Requests;
 
@@ -16,7 +18,10 @@ class CartController extends Controller {
     public function index()
     {
         //
-        return view('cart.showcart');
+
+        $carts = \Cart::contents();
+
+        return view('cart.showcart', ['carts' => json_encode($carts)]);
 
     }
 
@@ -40,22 +45,25 @@ class CartController extends Controller {
     public function store(Request $request)
     {
         //
-        $product = Product::find(json_encode($_POST['product_id']));
+    }
+
+    //TODO transfer this to post
+    public function addToCart($id)
+    {
+        $item = Item::findOrFail($id);
 
         $item = [
-            'id'       => $product->id,
-            'name'     => $product->name,
+            'id'       => $item->id,
+            'name'     => $item->name,
             'quantity' => '1',
-            'price'    => $product->price
+            'price'    => $item->price
         ];
 
-        if (Cart::insert($item))
+        if (\Cart::insert($item))
         {
             return 'inserted';
         } else
-            return 'fail';
-
-
+            return 'failed';
     }
 
     /**
@@ -67,6 +75,7 @@ class CartController extends Controller {
     public function show($id)
     {
         //
+
 
     }
 

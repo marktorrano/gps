@@ -121,6 +121,39 @@ myApp.onPageInit('items-show', function () {
             onDelete: function (e) {
                 var id = e.data('id');
                 this.$http.delete(url + '/items/' + id);
+            },
+            onAddToCart: function (item) {
+
+                this.$http.get(url + '/carts-items/' + item.id, function (response) {
+                    console.log(response);
+                });
+            }
+        }
+    });
+});
+myApp.onPageInit('carts-show', function () {
+
+    var vm = new Vue({
+        el: '#carts',
+
+        data: {
+            items: []
+        },
+
+        ready: function () {
+
+            this.fetchCartItems();
+
+        },
+        methods: {
+            fetchCartItems: function () {
+
+                this.$http.get(url + '/get-cart-items', function (response) {
+                    vm.items = response;
+
+                    console.log(response);
+                });
+
             }
         }
     });

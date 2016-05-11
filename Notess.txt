@@ -33,6 +33,8 @@ ssh -i "ebd-dev.pem" ubuntu@ec2-52-63-152-147.ap-southeast-2.compute.amazonaws.c
 
 sudo cp -a gps-dev/. /var/www/gps/
 
+cd gps
+
 sudo chgrp -R www-data storage bootstrap/cache
 
 sudo chmod -R ug+rwx storage bootstrap/cache
