@@ -47,16 +47,22 @@ class CartController extends Controller {
         //
     }
 
-    //TODO transfer this to post
+    //TODO increase and decrease quantity on cart
     public function addToCart($id)
     {
         $item = Item::findOrFail($id);
+
+        foreach ($item->photos as $photo)
+        {
+
+        }
 
         $item = [
             'id'       => $item->id,
             'name'     => $item->name,
             'quantity' => '1',
-            'price'    => $item->price
+            'price'    => $item->price,
+            'photo'    => $photo->path
         ];
 
         if (\Cart::insert($item))

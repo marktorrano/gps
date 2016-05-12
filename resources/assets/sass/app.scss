@@ -99,6 +99,7 @@ a:hover, a:active, a:link {
 
 .alert {
   padding: 2em 0;
+  cursor: pointer;
 }
 
 .swiper-slide {
@@ -132,6 +133,15 @@ a:hover, a:active, a:link {
   }
 }
 
+.cart-item-img {
+  max-height: 10em;
+  min-height: 10em;
+  overflow: hidden;
+  img {
+    width: 100%;
+  }
+}
+
 .product-img {
   min-height: 12em;
   max-height: 25em;
@@ -153,4 +163,33 @@ input[type='text'],
 input[type='number'],
 textarea {
   font-size: 16px;
+}
+
+.close-btn {
+  float: right;
+  margin: 0 5px;
+  cursor: pointer;
+}
+
+.item-price {
+  float: right;
+}
+
+.item-quantity {
+  display: block;
+  font-size: 1.3em;
+
+}
+
+.red {
+  margin-top: 1px;
+  color: #d50000;
+  font-size: 1.3em;
+}
+
+.green {
+  margin-top: 1px;
+  color: #00e676;
+  font-size: 1.3em;
+
 }

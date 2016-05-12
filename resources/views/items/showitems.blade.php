@@ -10,8 +10,11 @@
                 {{ Form::open(['method' => 'GET']) }}
                 {{ Form::input('search', 'q', null, ['placeholder' => 'Search...', 'class' => 'form-control search', 'v-model="search"']) }}
                 {{ Form::close() }}
-                <hr/>
 
+                <hr/>
+                <div class="alert alert-success" v-if="added" v-on:click="close">Item has been
+                    added<span
+                            class="close-btn" v-on:click="close">x</span></div>
 
                 <div v-for="item in items | filterBy search" class="item col-xs-6 col-lg-4 col-sm-6"
                 >
@@ -32,7 +35,7 @@
                                             @{{ item.price | currency }}</span>
                                     <p>
                                         <button class="button button-round active"
-                                                :disabled="false"
+                                                v-bind:disabled="disabled"
                                         @click="onAddToCart(item)"
                                         data-id="@{{ item.id }}">
                                         Add to cart

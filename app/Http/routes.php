@@ -20,13 +20,11 @@ Route::group(['middleware' => 'web'], function ()
 
         return view('layout', ['categories' => $categories]);
     });
-
     Route::get('test', function ()
     {
 
         dd(\Cart::contents());
     });
-
 
     Route::resource('products', 'ProductController');
     Route::resource('categories', 'CategoryController');
@@ -36,28 +34,13 @@ Route::group(['middleware' => 'web'], function ()
 
     Route::get('get-cart-items', function ()
     {
-
-        return \Cart::contents();
-    });
-    Route::post('oders/checkout', function ()
-    {
-        $order = new \App\Models\Order();
-
-        $order->user_id = Auth::user()->id;
-        $order->status = "Pending";
-        $order->save();
-
-        foreach (Cart::contents() as $item)
+        //return \Cart::contents();
+        $items = [];
+        foreach (Cart::contents() as $id => $item)
         {
-
-//            $order->products()->attach($item->id, ['quantity' => $item->quantity]);
-
+            $items[] = $item->toArray();
         }
-
-        Cart::destroy();
-
-        return redirect('/');
-
+        return $items;
     });
     Route::get('show-items/{product_id}', 'ItemController@fetchProductItems');
     Route::get('items/create/{product_id}', 'ItemController@create');
@@ -69,7 +52,15 @@ Route::group(['middleware' => 'web'], function ()
     Route::get('manage-categories', 'CategoryController@showManageCategories');
     Route::get('manage-brands', 'BrandController@showManageBrands');
 
+    Route::get('carts-clear', function ()
+    {
+        \Cart::destroy();
+
+        return 'cart-destroyed!';
+    });
     Route::get('carts-items/{id}', 'CartController@addToCart');
+    Route::get('carts-items-increase/{id}', 'CartController@increaseQty');
+    Route::get('carts-items-decrease/{id}', 'CartController@decreaseQty');
     Route::get('get-items', function ()
     {
         $items = App\Models\Item::all();
@@ -154,10 +145,41 @@ Route::group(['middleware' => 'web'], function ()
         }
         return $collections->products;
     });
+
     Route::delete('collections/{id}', function ($id)
     {
         $collection = App\Models\Collection::find($id);
 
         $collection->delete();
     });
+
+    Route::post('oders/checkout', function ()
+    {
+        $order = new \App\Models\Order();
+
+        $order->user_id = Auth::user()->id;
+        $order->status = "Pending";
+        $order->save();
+
+        foreach (Cart::contents() as $item)
+        {
+
+//            $order->products()->attach($item->id, ['quantity' => $item->quantity]);
+
+        }
+
+        Cart::destroy();
+
+        return redirect('/');
+
+    });
 });
+
+
+
+
+
+
+
+
+

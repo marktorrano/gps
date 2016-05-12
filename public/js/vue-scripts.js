@@ -106,7 +106,8 @@ myApp.onPageInit('items-show', function () {
         el: '#items',
         data: {
             items: [],
-            search: ''
+            search: '',
+            added: false
         },
         ready: function () {
             this.fetchItems();
@@ -125,8 +126,11 @@ myApp.onPageInit('items-show', function () {
             onAddToCart: function (item) {
 
                 this.$http.get(url + '/carts-items/' + item.id, function (response) {
-                    console.log(response);
+                    this.added = true;
                 });
+            },
+            close: function () {
+                this.added = false;
             }
         }
     });
@@ -137,7 +141,8 @@ myApp.onPageInit('carts-show', function () {
         el: '#carts',
 
         data: {
-            items: []
+            items: [],
+            cleared: false
         },
 
         ready: function () {
@@ -148,12 +153,30 @@ myApp.onPageInit('carts-show', function () {
         methods: {
             fetchCartItems: function () {
 
-                this.$http.get(url + '/get-cart-items', function (response) {
-                    vm.items = response;
-
-                    console.log(response);
+                this.$http.get(url + '/get-cart-items').then(function (items) {
+                    this.items = items.data;
                 });
 
+            },
+            clearCart: function () {
+                this.$http.get(url + '/carts-clear').then(function (response) {
+                    this.cleared = true;
+                    this.items = '';
+                });
+            },
+
+            //TODO
+            onAddQty: function (item) {
+                this.$http.get(url + '/carts-items/' + item.id, function (response) {
+
+                });
+            },
+            onReduceQty: function (item) {
+                this.$http.get(url + '/carts-items-decrease/' + item.id, function (response) {
+                });
+            },
+            close: function () {
+                this.cleared = false;
             }
         }
     });
