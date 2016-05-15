@@ -84,6 +84,7 @@
                     </a>
                 </li>
             @else
+
                 <li>
                     <a href="{{url('login')}}" class="item-link close-panel">
                         <div class="item-content">
@@ -93,6 +94,7 @@
                         </div>
                     </a>
                 </li>
+
                 <li>
                     <a href="{{url('register')}}" class="item-link close-panel">
                         <div class="item-content">

@@ -45,6 +45,7 @@ class CartController extends Controller {
     public function store(Request $request)
     {
         //
+
     }
 
     //TODO increase and decrease quantity on cart
@@ -70,6 +71,25 @@ class CartController extends Controller {
             return 'inserted';
         } else
             return 'failed';
+    }
+
+    public function removeFromCart($identifier)
+    {
+        $item = \Cart::item($identifier);
+
+        if ($item->quantity == 1)
+        {
+            $item->remove();
+            return 'removed';
+
+        } else
+        {
+            $item->quantity -= 1;
+            return 'reduced';
+
+        }
+
+
     }
 
     /**
@@ -117,5 +137,7 @@ class CartController extends Controller {
     public function destroy($id)
     {
         //
+
+
     }
 }

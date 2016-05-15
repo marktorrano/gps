@@ -1,8 +1,8 @@
 @include('navigation')
 
 <div class="pages navbar-through">
-    <div data-page="products" class="page">
-        <div class="page-content">
+    <div data-page="login" class="page">
+        <div class="page-content login-screen-content">
             <div class="content-block-title">To start shopping, please login</div>
             <div class="content-block">
                 <div class="panel-body">

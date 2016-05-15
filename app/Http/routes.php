@@ -1,9 +1,8 @@
 <?php
 
-
 Route::get('welcome', function ()
 {
-    return view('welcome');
+    return view('landing');
 });
 
 Route::get('password/email', 'Auth\PasswordController@getEmail');
@@ -13,6 +12,7 @@ Route::post('password/reset', 'Auth\PasswordController@postReset');
 
 Route::group(['middleware' => 'web'], function ()
 {
+
     Route::auth();
     Route::get('/', function ()
     {
@@ -20,10 +20,23 @@ Route::group(['middleware' => 'web'], function ()
 
         return view('layout', ['categories' => $categories]);
     });
+
     Route::get('test', function ()
     {
+        $items = \Cart::contents();
 
-        dd(\Cart::contents());
+        foreach ($items as $item)
+        {
+
+        }
+
+        return $items;
+    });
+
+    Route::get('landing', function ()
+    {
+
+        return view('landing');
     });
 
     Route::resource('products', 'ProductController');
@@ -34,13 +47,19 @@ Route::group(['middleware' => 'web'], function ()
 
     Route::get('get-cart-items', function ()
     {
-        //return \Cart::contents();
+
         $items = [];
-        foreach (Cart::contents() as $id => $item)
+
+        foreach (Cart::contents() as $identifier => $item)
         {
-            $items[] = $item->toArray();
+            $itemArray = $item->toArray();
+            $itemArray['identifier'] = $identifier;
+            $items[] = $itemArray;
+
         }
+
         return $items;
+
     });
     Route::get('show-items/{product_id}', 'ItemController@fetchProductItems');
     Route::get('items/create/{product_id}', 'ItemController@create');
@@ -58,9 +77,8 @@ Route::group(['middleware' => 'web'], function ()
 
         return 'cart-destroyed!';
     });
+    Route::get('carts-items-decrease/{identifier}', 'CartController@removeFromCart');
     Route::get('carts-items/{id}', 'CartController@addToCart');
-    Route::get('carts-items-increase/{id}', 'CartController@increaseQty');
-    Route::get('carts-items-decrease/{id}', 'CartController@decreaseQty');
     Route::get('get-items', function ()
     {
         $items = App\Models\Item::all();
@@ -108,7 +126,7 @@ Route::group(['middleware' => 'web'], function ()
         $user = App\Models\User::find($id);
 
         return view('users/showuser', ['user' => $user]);
-    });
+    })->middleware(['auth']);
     Route::get('products/{category_name}/{brand_name}', function ($category_name, $brand_name)
     {
 

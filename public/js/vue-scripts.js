@@ -165,14 +165,14 @@ myApp.onPageInit('carts-show', function () {
                 });
             },
 
-            //TODO
             onAddQty: function (item) {
                 this.$http.get(url + '/carts-items/' + item.id, function (response) {
-
+                    this.fetchCartItems();
                 });
             },
             onReduceQty: function (item) {
-                this.$http.get(url + '/carts-items-decrease/' + item.id, function (response) {
+                this.$http.get(url + '/carts-items-decrease/' + item.identifier, function (response) {
+                    this.fetchCartItems();
                 });
             },
             close: function () {
