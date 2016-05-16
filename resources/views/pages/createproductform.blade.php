@@ -1,5 +1,5 @@
 @include('navigation')
-<div class="pages navbar-through">
+<div class="pages navbar-through" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
     <div data-page="products-create" class="page" data-page="brands" id="products-create">
         <div class="page-content">
             <div class="content-block-title">Add Product</div>

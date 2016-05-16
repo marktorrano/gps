@@ -7,11 +7,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Contracts\Auth\CanResetPassword;
 
 class User extends Authenticatable {
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
+
     protected $fillable = [
         'name', 'email', 'password', 'is_admin'
     ];
@@ -20,11 +16,6 @@ class User extends Authenticatable {
         'name', 'email', 'photos'
     ];
 
-    /**
-     * The attributes excluded from the model's JSON form.
-     *
-     * @var array
-     */
     protected $hidden = [
         'password', 'remember_token',
     ];
@@ -41,5 +32,10 @@ class User extends Authenticatable {
     public function photos()
     {
         return $this->morphMany('App\Models\Photo', 'imageable');
+    }
+
+    public function addresses()
+    {
+        return $this->hasMany('App\Models\Address');
     }
 }

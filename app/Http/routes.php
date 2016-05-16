@@ -71,6 +71,26 @@ Route::group(['middleware' => 'web'], function ()
     Route::get('manage-categories', 'CategoryController@showManageCategories');
     Route::get('manage-brands', 'BrandController@showManageBrands');
 
+    Route::get('checkout', function ()
+    {
+        return view('checkout');
+    });
+    Route::get('addcoupon', function ()
+    {
+        return view('coupon');
+    });
+    Route::get('address', function ()
+    {
+        return view('address');
+    });
+    Route::get('address', function ()
+    {
+        return view('address');
+    });
+    Route::get('add-new-address', function ()
+    {
+        return view('newaddress');
+    });
     Route::get('carts-clear', function ()
     {
         \Cart::destroy();
@@ -173,7 +193,7 @@ Route::group(['middleware' => 'web'], function ()
 
     Route::post('oders/checkout', function ()
     {
-        $order = new \App\Models\Order();
+        $order = new \App\Models\Order;
 
         $order->user_id = Auth::user()->id;
         $order->status = "Pending";
@@ -190,6 +210,28 @@ Route::group(['middleware' => 'web'], function ()
 
         return redirect('/');
 
+    });
+    Route::post('address', function (App\Http\Requests\CreateAddressRequest $request)
+    {
+
+        DB::table('addressess')->insert([
+
+            'user_id'    => Auth::user()->id,
+            'first_name' => $request->first_name,
+            'last_name'  => $request->last_name,
+            'address_1'  => $request->address_1,
+            'address_2'  => $request->address_2,
+            'city'       => $request->city,
+            'country'    => $request->country,
+            'state'      => $request->state,
+            'zip'        => $request->zip,
+            'phone'      => $request->phone,
+            'created_at' => \Carbon\Carbon::now(),
+            'updated_at' => \Carbon\Carbon::now()
+
+        ]);
+
+        return view('address');
     });
 });
 

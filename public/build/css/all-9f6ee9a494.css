@@ -5826,8 +5826,7 @@ a:hover, a:active, a:link {
   color: red; }
 
 .alert {
-  padding: 2em 0;
-  cursor: pointer; }
+  padding: 2em 0; }
 
 .swiper-slide {
   background: #fff;
@@ -5843,69 +5842,6 @@ a:hover, a:active, a:link {
 .swiper-container {
   height: 120px;
   margin: 35px 0; }
-
-.item {
-  padding: 0 3px !important; }
-
-.item-img {
-  min-height: 15em;
-  max-height: 15em;
-  overflow: hidden; }
-  .item-img img {
-    width: 100%; }
-
-.cart-item-img {
-  max-height: 10em;
-  min-height: 10em;
-  overflow: hidden; }
-  .cart-item-img img {
-    width: 100%; }
-
-.product-img {
-  min-height: 12em;
-  max-height: 25em;
-  overflow: hidden; }
-  .product-img img {
-    width: 100%; }
-
-.search-bar {
-  width: 100%;
-  border: none;
-  outline: none;
-  height: 2em;
-  background: none; }
-
-input[type='text'],
-input[type='number'],
-textarea {
-  font-size: 16px; }
-
-.close-btn {
-  float: right;
-  margin: 0 5px;
-  cursor: pointer; }
-
-.item-price {
-  float: right; }
-
-.item-quantity {
-  display: block;
-  font-size: 1.3em; }
-
-.red {
-  margin-top: 1px;
-  color: #d50000;
-  font-size: 1.3em; }
-
-.green {
-  margin-top: 1px;
-  color: #00e676;
-  font-size: 1.3em; }
-
-.item-title.label {
-  color: #3f3f3f;
-  font-size: 1em;
-  text-align: left; }
 
 /*# sourceMappingURL=app.css.map */
 

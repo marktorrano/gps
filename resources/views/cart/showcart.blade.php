@@ -35,9 +35,9 @@
                 <hr/>
                 <div class="alert alert-success" v-if="cleared" v-on:click="close">Cart has been cleared<span
                             class="close-btn" v-on:click="close">x</span></div>
-                <div class="button button-fill"
-                     v-on:click="clearCart">Checkout
-                </div>
+                <a class="button button-fill" href="{{url('checkout')}}"
+                   v-on:click="">Checkout
+                </a>
                 {{--<div class="button btn-primary"--}}
                 {{--v-on:click="clearCart">Clear Cart--}}
                 {{--</div>--}}

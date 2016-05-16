@@ -419,6 +419,56 @@ myApp.onPageInit('categories-create', function () {
     });
 });
 
+myApp.onPageInit('address-create', function () {
+
+    var vm = new Vue({
+        el: '#address',
+
+        data: {
+
+            fields: {
+                first_name: ''
+            },
+
+            submitted: false
+        },
+
+        ready: function () {
+            console.log(this.fields);
+        },
+
+        computed: {
+            errors: function () {
+
+                for (var key in this.fields) {
+                    if (!this.fields[key]) return true;
+                }
+
+                return false;
+            }
+        },
+
+        methods: {
+
+            onSubmitForm: function (e) {
+                e.preventDefault();
+
+                var fd = new FormData(document.querySelector('form'));
+
+
+                this.$http.post(url + '/categories', fd, function (response) {
+                    $('#category-list').append('<li>' + response + '</li>');
+                    $('#name').val('');
+                });
+
+                this.submitted = true;
+
+            }
+        }
+
+
+    });
+});
 var categories_manage = myApp.onPageInit('categories-manage', function () {
 
     var oCategories = $('#categories').data('object');
