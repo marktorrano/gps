@@ -47,6 +47,15 @@ class ItemController extends Controller {
     {
         //
         $item = Item::create($request->all());
+//
+//        DB::table('items')->insert([
+//            'name'       => $request->name,
+//            'price'      => $request->price,
+//            'product_id' => $request->product_id,
+//            'created_at' => Carbon::now(),
+//            'updated_at' => Carbon::now()
+//
+//        ]);
 
         $newName = "photoItem" . $item->id . ".jpg";
 

@@ -1,11 +1,13 @@
 @include('navigation')
-<div class="pages navbar-through">
+<div class="pages navbar-through" xmlns:v-on="http://www.w3.org/1999/xhtml">
     <div data-page="items-create" class="page" id="items">
         <div class="page-content">
             <div class="content-block-title">Add Item</div>
             <div class="content-block">
                 <div class="form-container">
                     <hr/>
+
+                    @{{ $data | json }}
 
                     <form class="item-form" method="POST" v-on:submit.prevent="onSubmitForm"
                           enctype="multipart/form-data">
@@ -38,7 +40,7 @@
                             <input name="photo" type="file" id="photo" v-on:change="onFileChange">
                         </div>
                         <button type="submit" class="btn btn-primary" :disabled="errors">Add
-                            Product
+                            Item
                         </button>
                         <br/>
 
@@ -47,7 +49,7 @@
                     </form>
 
                         <pre>
-                        @{{ metas | json }}
+                        {{--@{{ metas | json }}--}}
                     </pre>
                 </div>
             </div>

@@ -32,7 +32,7 @@
                         </div>
                         @if(Auth::check() && Auth::user()->is_admin == '1')
                             <p class="buttons-row theme-blue">
-                                <a href="{{url('items/create/')}}@{{ product.id }}" class="button">Add Item</a>
+                                <a href="{{url('items/create')}}@{{ '/' + product.id }}" class="button">Add Item</a>
                                 <a href="{{url('products')}}@{{ '/' + product.id + '/edit' }}" class="button">Edit</a>
                                 <a href="" data-id="@{{ product.id }}" class="button delete">Delete</a>
                             </p>

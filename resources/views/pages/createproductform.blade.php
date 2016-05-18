@@ -27,7 +27,7 @@
                                     v-on:input="fetchBrands"
                             >
                                 @foreach(App\Models\Category::all() as $category)
-                                    <option value="{{$category->id}}">{{$category->name}}</option>
+                                    <option value="{{$category->id}}">{{ucwords(strtolower($category->name))}}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -36,7 +36,8 @@
                             <select name="brand_id" id="brand_id" class="form-control"
                                     v-model="choice"
                             >
-                                <option v-for="brand in brands" value="@{{ brand.id }}">@{{ brand.name }}</option>
+                                <option v-for="brand in brands"
+                                        value="@{{ brand.id }}">@{{ brand.name | capitalize }}</option>
                             </select>
                         </div>
 

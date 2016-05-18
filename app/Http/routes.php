@@ -23,16 +23,7 @@ Route::group(['middleware' => 'web'], function ()
 
     Route::get('test', function ()
     {
-        $items = \Cart::contents();
-
-        foreach ($items as $item)
-        {
-
-        }
-
-        return $items;
     });
-
     Route::get('landing', function ()
     {
 
@@ -45,22 +36,6 @@ Route::group(['middleware' => 'web'], function ()
     Route::resource('carts', 'CartController');
     Route::resource('items', 'ItemController');
 
-    Route::get('get-cart-items', function ()
-    {
-
-        $items = [];
-
-        foreach (Cart::contents() as $identifier => $item)
-        {
-            $itemArray = $item->toArray();
-            $itemArray['identifier'] = $identifier;
-            $items[] = $itemArray;
-
-        }
-
-        return $items;
-
-    });
     Route::get('show-items/{product_id}', 'ItemController@fetchProductItems');
     Route::get('items/create/{product_id}', 'ItemController@create');
     Route::get('get-all-products', 'ProductController@fetchAllProducts');
@@ -71,9 +46,22 @@ Route::group(['middleware' => 'web'], function ()
     Route::get('manage-categories', 'CategoryController@showManageCategories');
     Route::get('manage-brands', 'BrandController@showManageBrands');
 
+    Route::get('get-cart-items', function ()
+    {
+        $items = [];
+        foreach (Cart::contents() as $identifier => $item)
+        {
+            $itemArray = $item->toArray();
+            $itemArray['identifier'] = $identifier;
+            $items[] = $itemArray;
+        }
+        return $items;
+
+    });
     Route::get('checkout', function ()
     {
         return view('checkout');
+
     });
     Route::get('addcoupon', function ()
     {
@@ -94,11 +82,131 @@ Route::group(['middleware' => 'web'], function ()
     Route::get('carts-clear', function ()
     {
         \Cart::destroy();
-
-        return 'cart-destroyed!';
     });
     Route::get('carts-items-decrease/{identifier}', 'CartController@removeFromCart');
     Route::get('carts-items/{id}', 'CartController@addToCart');
+    Route::get('address/{id}', function ($id)
+    {
+
+        $address = App\Models\Address::where('default', '1')->first();
+        $address->default = 0;
+        $address->save();
+
+        $newAddress = App\Models\Address::where('id', $id)->first();
+        $newAddress->default = 1;
+        $newAddress->save();
+
+        return 'updated';
+
+    });
+    Route::post('oders/checkout', function ()
+    {
+        $order = new \App\Models\Order;
+
+        $order->user_id = Auth::user()->id;
+        $order->status = "Pending";
+        $order->save();
+
+        foreach (Cart::contents() as $item)
+        {
+
+//            $order->products()->attach($item->id, ['quantity' => $item->quantity]);
+
+        }
+
+        Cart::destroy();
+
+        return redirect('/');
+
+    });
+    Route::post('address', function (App\Http\Requests\CreateAddressRequest $request)
+    {
+
+
+        if (\App\Models\Address::where('user_id', Auth::user()->id)->first())
+        {
+            DB::table('addresses')->insert([
+
+                'user_id'    => Auth::user()->id,
+                'title'      => $request->title,
+                'first_name' => $request->first_name,
+                'last_name'  => $request->last_name,
+                'address_1'  => $request->address_1,
+                'address_2'  => $request->address_2,
+                'city'       => $request->city,
+                'country'    => $request->country,
+                'state'      => $request->state,
+                'zip'        => $request->zip,
+                'phone'      => $request->phone,
+                'default'    => 0,
+                'created_at' => \Carbon\Carbon::now(),
+                'updated_at' => \Carbon\Carbon::now()
+
+            ]);
+        } else
+        {
+            DB::table('addresses')->insert([
+
+                'user_id'    => Auth::user()->id,
+                'title'      => $request->title,
+                'first_name' => $request->first_name,
+                'last_name'  => $request->last_name,
+                'address_1'  => $request->address_1,
+                'address_2'  => $request->address_2,
+                'city'       => $request->city,
+                'country'    => $request->country,
+                'state'      => $request->state,
+                'zip'        => $request->zip,
+                'phone'      => $request->phone,
+                'default'    => 1,
+                'created_at' => \Carbon\Carbon::now(),
+                'updated_at' => \Carbon\Carbon::now()
+
+            ]);
+        }
+
+
+        return redirect('/');
+    });
+    Route::get('fetch-addresses', function ()
+    {
+
+        $user_id = \Auth::user()->id;
+        $addresses = App\Models\Address::where('user_id', $user_id)->get();
+
+        return $addresses;
+
+    });
+    Route::get('fetch-default-address', function ()
+    {
+
+        if (Auth::check())
+        {
+            $user_id = Auth::user()->id;
+            $address = App\Models\Address::where('user_id', $user_id)->where('default', '1')->first();
+            return $address;
+        } else
+        {
+            return 'no address';
+        }
+
+
+    });
+    Route::get('fetch-cart-total', function ()
+    {
+
+        return Cart::total(false);
+
+    });
+    //TODO incomplete put this in OrderController
+    Route::get('place-order', function ()
+    {
+        //compute
+        //get items info
+        //get quantity from Cart::
+        //record item_id, user_id, quantity, price, promo_price
+    });
+
     Route::get('get-items', function ()
     {
         $items = App\Models\Item::all();
@@ -184,6 +292,7 @@ Route::group(['middleware' => 'web'], function ()
         return $collections->products;
     });
 
+
     Route::delete('collections/{id}', function ($id)
     {
         $collection = App\Models\Collection::find($id);
@@ -191,48 +300,6 @@ Route::group(['middleware' => 'web'], function ()
         $collection->delete();
     });
 
-    Route::post('oders/checkout', function ()
-    {
-        $order = new \App\Models\Order;
-
-        $order->user_id = Auth::user()->id;
-        $order->status = "Pending";
-        $order->save();
-
-        foreach (Cart::contents() as $item)
-        {
-
-//            $order->products()->attach($item->id, ['quantity' => $item->quantity]);
-
-        }
-
-        Cart::destroy();
-
-        return redirect('/');
-
-    });
-    Route::post('address', function (App\Http\Requests\CreateAddressRequest $request)
-    {
-
-        DB::table('addressess')->insert([
-
-            'user_id'    => Auth::user()->id,
-            'first_name' => $request->first_name,
-            'last_name'  => $request->last_name,
-            'address_1'  => $request->address_1,
-            'address_2'  => $request->address_2,
-            'city'       => $request->city,
-            'country'    => $request->country,
-            'state'      => $request->state,
-            'zip'        => $request->zip,
-            'phone'      => $request->phone,
-            'created_at' => \Carbon\Carbon::now(),
-            'updated_at' => \Carbon\Carbon::now()
-
-        ]);
-
-        return view('address');
-    });
 });
 
 

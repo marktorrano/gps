@@ -32,6 +32,9 @@ class CreateOrdersTable extends Migration {
             $table->integer('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
 
+            $table->integer('quantity')->unsigned();
+            $table->float('price')->unsigned();
+            $table->float('promo_price')->unsigned();
 
             $table->softDeletes();
             $table->timestamps();

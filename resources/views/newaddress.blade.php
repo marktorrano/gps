@@ -18,7 +18,7 @@
                         <div class="item-inner">
                             <div class="item-input">
                                 <select name="title">
-                                    <option value="female">Ms.</option>
+                                    <option value="female" selected="selected">Ms.</option>
                                     <option value="male">Mr.</option>
                                 </select>
                             </div>

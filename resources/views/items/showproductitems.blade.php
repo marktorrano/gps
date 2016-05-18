@@ -20,7 +20,7 @@
                             </div>
                             <div class="caption">
                                 <span class="group inner list-group-item-heading">
-                                    @{{ item.name }}
+                                    @{{ item.name | capitalize}}
                                 </span>
                                 <div class="row">
                                     <div class="col-xs-12 col-md-6">

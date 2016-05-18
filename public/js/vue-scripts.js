@@ -19,8 +19,6 @@ myApp.onPageInit('items-create', function () {
 
         data: {
 
-            metas: [],
-
             submitted: false,
 
             fields: {
@@ -69,16 +67,22 @@ myApp.onPageInit('items-create', function () {
 
             onSubmitForm: function (e) {
 
-                var fd = new FormData(document.querySelector('form'));
+                var fd = new FormData(document.querySelector('.item-form'));
+
+
+                console.log(fd);
 
                 $('#photo').val('');
 
-                this.$http.post(url + '/items', fd);
+
+                this.$http.post('items', fd).then(function (response) {
+                    console.log(response);
+                });
 
                 this.submitted = true;
 
                 this.fields = {
-                    name: '', description: '', photo: ''
+                    name: '', price: '', photo: ''
                 }
 
             },
@@ -141,42 +145,75 @@ myApp.onPageInit('carts-show', function () {
         el: '#carts',
 
         data: {
+            cartTotal: '',
             items: [],
-            cleared: false
+            cleared: false,
+            checkedout: false,
+            orderNumber: '',
         },
 
         ready: function () {
 
             this.fetchCartItems();
+            this.fetchTotal();
 
         },
         methods: {
             fetchCartItems: function () {
 
-                this.$http.get(url + '/get-cart-items').then(function (items) {
+                this.$http.get('get-cart-items').then(function (items) {
                     this.items = items.data;
                 });
 
             },
+            fetchTotal: function () {
+                this.$http.get('fetch-cart-total').then(function (cartTotal) {
+                    this.cartTotal = cartTotal.data;
+                });
+            },
             clearCart: function () {
-                this.$http.get(url + '/carts-clear').then(function (response) {
+                this.$http.get('carts-clear').then(function (response) {
                     this.cleared = true;
                     this.items = '';
                 });
             },
 
             onAddQty: function (item) {
-                this.$http.get(url + '/carts-items/' + item.id, function (response) {
+                this.$http.get('carts-items/' + item.id).then(function (response) {
                     this.fetchCartItems();
+                    this.fetchTotal();
                 });
             },
             onReduceQty: function (item) {
-                this.$http.get(url + '/carts-items-decrease/' + item.identifier, function (response) {
+                this.$http.get('carts-items-decrease/' + item.identifier).then(function (response) {
                     this.fetchCartItems();
+                    this.fetchTotal();
+
                 });
             },
-            close: function () {
-                this.cleared = false;
+            checkOutMember: function () {
+
+            },
+            checkOutGuest: function () {
+                this.cleared = true;
+
+                //TODO make post request to record order and display order number
+                this.$http.get('place-order').then(function (response) {
+                    console.log(response);
+                });
+
+                this.checkedout = true;
+                this.items = '';
+            },
+
+            close: function (section) {
+                if (section == 'cart') {
+
+                    this.cleared = false;
+                }
+                if (section == 'checkout') {
+                    this.checkedout = false;
+                }
             }
         }
     });
@@ -276,6 +313,7 @@ myApp.onPageInit('products-create', function () {
     new Vue({
         el: '#products-create',
         data: {
+
             choice: 1,
 
             brands: [
@@ -329,10 +367,16 @@ myApp.onPageInit('products-create', function () {
                 });
 
             },
+            fetchCategories: function () {
+
+                this.$http.get('categories').then(function (categories) {
+                    this.$set('categories', categories);
+                });
+            },
             fetchNewProducts: function () {
 
-                this.$http.get(url + '/get-new-products', function (products) {
-                    this.$set('products', products);
+                this.$http.get('get-new-products', function (products) {
+                    this.products = products;
                 });
             },
 
@@ -418,57 +462,57 @@ myApp.onPageInit('categories-create', function () {
 
     });
 });
-
-myApp.onPageInit('address-create', function () {
+myApp.onPageInit('address', function () {
 
     var vm = new Vue({
         el: '#address',
 
         data: {
-
-            fields: {
-                first_name: ''
-            },
-
-            submitted: false
+            addresses: [],
         },
-
         ready: function () {
-            console.log(this.fields);
+            this.fetchAddresses();
         },
-
-        computed: {
-            errors: function () {
-
-                for (var key in this.fields) {
-                    if (!this.fields[key]) return true;
-                }
-
-                return false;
-            }
-        },
-
         methods: {
 
-            onSubmitForm: function (e) {
-                e.preventDefault();
+            fetchAddresses: function () {
 
-                var fd = new FormData(document.querySelector('form'));
-
-
-                this.$http.post(url + '/categories', fd, function (response) {
-                    $('#category-list').append('<li>' + response + '</li>');
-                    $('#name').val('');
+                this.$http.get('fetch-addresses').then(function (addresses) {
+                    this.addresses = addresses.data;
                 });
-
-                this.submitted = true;
-
+            },
+            selectAddress: function (id) {
+                this.$http.get('address/' + id).then(function (response) {
+                });
             }
         }
 
-
     });
 });
+myApp.onPageInit('checkout', function () {
+
+    var vm = new Vue({
+        el: '#checkout',
+        data: {
+            shippingAddress: {},
+            total: '',
+            items: [],
+            cartTotal: '',
+        },
+        ready: function () {
+            this.$http.get('fetch-default-address').then(function (address) {
+                this.shippingAddress = address.data;
+            });
+            this.$http.get('fetch-cart-total').then(function (cartTotal) {
+                vm.cartTotal = cartTotal.data;
+            });
+            this.$http.get(url + '/get-cart-items').then(function (items) {
+                this.items = items.data;
+            });
+        }
+    });
+});
+
 var categories_manage = myApp.onPageInit('categories-manage', function () {
 
     var oCategories = $('#categories').data('object');

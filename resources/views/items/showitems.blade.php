@@ -1,6 +1,6 @@
 @include('navigation')
 
-<div class="pages navbar-through">
+<div class="pages navbar-through" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
     <div data-page="items-show" id="items" data-url="{{url('get-items')}}" class="page">
         <div class="page-content">
             <div class="content-block-title">Available items</div>
@@ -29,16 +29,16 @@
                             <div class="row">
                                 <div class="col-xs-12 col-md-6">
                                     <p class="lead">
-                                        @{{ item.name }}
+                                        @{{ item.name | capitalize}}
                                     </p>
                                     <span class="lead">
                                             @{{ item.price | currency }}</span>
                                     <p>
                                         <button class="button button-round active"
                                                 v-bind:disabled="disabled"
-                                        @click="onAddToCart(item)"
-                                        data-id="@{{ item.id }}">
-                                        Add to cart
+                                                v-on:click.prevent="onAddToCart(item)"
+                                                data-id="@{{ item.id }}">
+                                            Add to cart
                                         </button>
 
                                         <a href="#" class="button button-round active"

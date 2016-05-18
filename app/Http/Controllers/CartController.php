@@ -48,7 +48,6 @@ class CartController extends Controller {
 
     }
 
-    //TODO increase and decrease quantity on cart
     public function addToCart($id)
     {
         $item = Item::findOrFail($id);

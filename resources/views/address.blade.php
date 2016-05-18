@@ -13,9 +13,16 @@
         <div class="page-content">
             <div class="list-block">
                 <ul>
-                    @if(Auth::check())
-
-                    @endif
+                    <li class="item-content" v-for="address in addresses"
+                        v-show="address.default == 0">
+                        <div class="item-inner">
+                            @{{ address.address_1 + ', ' + address.address_2 }} <br/>
+                            @{{ address.city + ', ' + address.country }}
+                        </div>
+                        <div class="item-after"><a href="{{url('checkout')}}" v-on:click="selectAddress(address.id)"
+                                                   data-id="@{{ address.id }}" class="address-select">Select</a>
+                        </div>
+                    </li>
                 </ul>
                 <p><a href="{{url('add-new-address')}}" class="button button-round active">Add new</a></p>
             </div>
